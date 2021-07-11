@@ -6,9 +6,14 @@
 //
 
 #include <iostream>
+#include <iostream>
+#include <fstream>
+
+
+using namespace std;
+
+string test1 = "/Users/makskryzhanovskiy/Desktop/Projects/catalogue/Tests/test1.txt";
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
     return 0;
 }
