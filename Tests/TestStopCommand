@@ -1,0 +1,11 @@
+{
+    "base_requests": [
+        {
+            "type": "Stop",
+            "name": "Riviera Stop",
+            "latitude": 43.5,
+            "longitude": 39.7,
+            "road_distances": {"Sea Port": 100}
+        }
+    ]
+}
