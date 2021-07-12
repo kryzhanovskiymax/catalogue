@@ -3,6 +3,7 @@
 using namespace json;
 using namespace transport_catalogue::json_reader;
 using namespace transport_catalogue::detail;
+using namespace transport_catalogue::request_handler;
 using namespace transport_catalogue::request_handler::detail;
 
 void JsonReader::ReadJson(std::istream& is) {
@@ -41,6 +42,7 @@ void JsonReader::Print(std::ostream& os) const {
             for(const auto& bus : stop.buses) {
                 os << bus << " ";
             }
+            os << std::endl;
             os << "------------------------" << std::endl;
         }
     }
@@ -62,7 +64,7 @@ std::vector<Request> JsonReader::GetRequests() {
     return requests;
 }
 
-void JsonReader::WriteResponse(std::vector<std::variant<BusResponse, StopResponse>> answer) {
+void JsonReader::WriteResponse(std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse>> answer) {
     response = answer;
 }
 

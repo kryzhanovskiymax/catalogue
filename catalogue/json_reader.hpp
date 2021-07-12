@@ -14,7 +14,7 @@ public:
     void Print(std::ostream& os) const;
     void InitializeTransportCatalogue(TransportCatalogue& transport_catalogue);
     std::vector<transport_catalogue::request_handler::detail::Request> GetRequests();
-    void WriteResponse(std::vector<std::variant<transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::StopResponse>> answer);
+    void WriteResponse(std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse>> answer);
     
 private:
     void ReadBaseRequests(const json::Node& base_req);
@@ -22,7 +22,7 @@ private:
     
     std::pair<std::vector<transport_catalogue::detail::StopCommand>, std::vector<transport_catalogue::detail::BusCommand>> base_requests;
     std::vector<transport_catalogue::request_handler::detail::Request> requests;
-    std::vector<std::variant<transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::StopResponse>> response;
+    std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse>> response;
 };
 
 }

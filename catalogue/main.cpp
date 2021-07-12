@@ -21,7 +21,7 @@ using namespace transport_catalogue::request_handler;
 using namespace transport_catalogue::json_reader;
 using namespace transport_catalogue::request_handler::detail;
 
-void TestTransportCatalogue() {
+/*void TestTransportCatalogue() {
     BusCommand bc1;
     bc1.name = "114";
     bc1.is_round_trip = false;
@@ -62,12 +62,38 @@ void TestTransportCatalogue() {
     std::cout << response2.route_length << std::endl;
     std::cout << response2.route_distance << std::endl;
     std::cout << response2.curvature << std::endl;
+}*/
+
+void TestSystem() {
+    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test1.txt";
+    std::fstream ifs;
+    ifs.open(path);
+    
+    if(!ifs.is_open()) {
+        std::cout << "Something went Wrong" << std::endl;
+    } else {
+        std::cout << "File is opened..." << std::endl;
+
+        JsonReader jr;
+        TransportCatalogue tc;
+        RequestHandler rh;
+        
+        std::cout << "System loading..." << std::endl;
+        jr.ReadJson(ifs);
+        jr.InitializeTransportCatalogue(tc);
+        rh.InitializeRequestHandler(jr.GetRequests());
+        rh.HandleRequests(tc);
+        jr.WriteResponse(rh.GetResponses());
+        std::cout << "Answer:" << std::endl;
+        jr.Print(std::cout);
+        std::cout << "PROGRAMM FINIHED SUCCESFULLY" << std::endl;
+    }
 }
 
 
 int main(int argc, const char * argv[]) {
     
-    TestTransportCatalogue();
+    TestSystem();
     
     return 0;
 }
