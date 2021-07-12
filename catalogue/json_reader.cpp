@@ -24,28 +24,39 @@ void JsonReader::ReadJson(std::istream& is) {
 }
 
 void JsonReader::Print(std::ostream& os) const {
+    std::vector<Node> array;
+    
     for(const auto& element : response) {
+        std::map<std::string, Node> dict;
+        
         if(std::holds_alternative<BusResponse>(element)) {
-            auto bus = std::get<BusResponse>(element);
-            os << "------------------------" << std::endl;
-            os << bus.request_id << std::endl;
-            os << bus.curvature << std::endl;
-            os << bus.route_length << std::endl;
-            os << bus.stop_count << std::endl;
-            os << bus.unique_stop_count << std::endl;
-            os << "------------------------" << std::endl;
             
-        } else {
+            auto bus = std::get<BusResponse>(element);
+            dict.insert({"request_id", Node(bus.request_id)});
+            dict.insert({"curvature", Node(bus.curvature)});
+            dict.insert({"route_length", Node(bus.route_length)});
+            dict.insert({"stop_count", Node(static_cast<int>(bus.stop_count))});
+            dict.insert({"unique_stop_count", Node(static_cast<int>(bus.unique_stop_count))});
+            
+        } else if(std::holds_alternative<StopResponse>(element)) {
+            
             auto stop = std::get<StopResponse>(element);
-            os << "------------------------" << std::endl;
-            os << stop.request_id << std::endl;
+            
+            dict.insert({"request_id", Node(stop.request_id)});
+            
+            std::vector<Node> buses_;
             for(const auto& bus : stop.buses) {
-                os << bus << " ";
+                std::string str = static_cast<std::string>(bus);
+                buses_.push_back(Node(str));
             }
-            os << std::endl;
-            os << "------------------------" << std::endl;
+            dict.insert({"buses", Node(buses_)});
+            
         }
+        
+        array.push_back(Node(dict));
     }
+    
+    json::Print(Document(Node(array)), os);
 }
 
 void JsonReader::InitializeTransportCatalogue(TransportCatalogue& transport_catalogue) {

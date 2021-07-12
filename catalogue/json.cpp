@@ -490,12 +490,12 @@ ostream& operator<<(ostream& output, const Node& node) {
         }
 
         else if (node.IsMap()) {
-            output << "{ "s;
+            output << std::endl<< "{ "s << std::endl;
 
             bool flag = false;
             for (const auto& dict : node.AsMap()) {
                 if (flag) {
-                    output << ", "s;
+                    output << ", "s << std::endl;
                 }
                 output << "\"" << dict.first << "\"";
                 output << ": "s;
@@ -503,7 +503,7 @@ ostream& operator<<(ostream& output, const Node& node) {
                 flag = true;
             }
 
-            output << " }"s;
+            output << std::endl << " }"s;
         }
 
         return output;
