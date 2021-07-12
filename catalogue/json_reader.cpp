@@ -22,8 +22,48 @@ void JsonReader::ReadJson(std::istream& is) {
     }
 }
 
-void JsonReader::Print(std::ostream& os) {
+void JsonReader::Print(std::ostream& os) const {
+    for(const auto& element : response) {
+        if(std::holds_alternative<BusResponse>(element)) {
+            auto bus = std::get<BusResponse>(element);
+            os << "------------------------" << std::endl;
+            os << bus.request_id << std::endl;
+            os << bus.curvature << std::endl;
+            os << bus.route_length << std::endl;
+            os << bus.stop_count << std::endl;
+            os << bus.unique_stop_count << std::endl;
+            os << "------------------------" << std::endl;
+            
+        } else {
+            auto stop = std::get<StopResponse>(element);
+            os << "------------------------" << std::endl;
+            os << stop.request_id << std::endl;
+            for(const auto& bus : stop.buses) {
+                os << bus << " ";
+            }
+            os << "------------------------" << std::endl;
+        }
+    }
+}
+
+void JsonReader::InitializeTransportCatalogue(TransportCatalogue& transport_catalogue) {
     
+    for(const auto& stop_command : base_requests.first) {
+        transport_catalogue.AddStop(stop_command);
+    }
+    
+    for(const auto& bus_command : base_requests.second) {
+        transport_catalogue.AddBus(bus_command);
+    }
+    
+}
+
+std::vector<Request> JsonReader::GetRequests() {
+    return requests;
+}
+
+void JsonReader::WriteResponse(std::vector<std::variant<BusResponse, StopResponse>> answer) {
+    response = answer;
 }
 
 void JsonReader::ReadBaseRequests(const Node& base_req) {

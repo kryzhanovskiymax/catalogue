@@ -1,4 +1,5 @@
 #include "transport_catalogue.hpp"
+#include <iostream>
 
 using namespace transport_catalogue;
 using namespace transport_catalogue::detail;
@@ -10,7 +11,6 @@ void TransportCatalogue::AddBus(const BusCommand& command) {
         if(names_to_stops_.count(stop_name) > 0) {
             stops_.push_back(names_to_stops_.at(stop_name));
         } else {
-
             throw std::invalid_argument("Wrong stop name");
         }
     }
@@ -33,6 +33,7 @@ void TransportCatalogue::AddStop(const StopCommand& command) {
     }
     
     stops.push_back(stop);
+
     names_to_stops_.insert(std::make_pair(name, &stops.back()));
 }
 

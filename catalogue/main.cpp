@@ -13,30 +13,61 @@
 #include "json_reader.hpp"
 #include "request_handler.hpp"
 
-
 using namespace std;
 using namespace json;
 using namespace transport_catalogue;
 using namespace transport_catalogue::detail;
 using namespace transport_catalogue::request_handler;
-using namespace transport_catalogue::request_handler::detail;
 using namespace transport_catalogue::json_reader;
+using namespace transport_catalogue::request_handler::detail;
+
+void TestTransportCatalogue() {
+    BusCommand bc1;
+    bc1.name = "114";
+    bc1.is_round_trip = false;
+    bc1.stops.push_back("Морской вокзал");
+    bc1.stops.push_back("Ривьерский мост");
+    
+    StopCommand sc1;
+    sc1.name = "Ривьерский мост";
+    sc1.coordinates.lat = 43.6;
+    sc1.coordinates.lng = 39.7;
+    sc1.stops_to_distances.insert({"Морской вокзал", 850});
+    
+    StopCommand sc2;
+    sc2.name = "Морской вокзал";
+    sc2.coordinates.lat = 43.5;
+    sc2.coordinates.lng = 39.7;
+    sc2.stops_to_distances.insert({"Ривьерский мост", 850});
+    
+    TransportCatalogue tc;
+    tc.AddStop(sc1);
+    tc.AddStop(sc2);
+    tc.AddBus(bc1);
+    
+    std::cout << "THIS IS RESPONSE" << std::endl;
+    auto response1 = tc.GetStop("Морской вокзал");
+    std::cout << "------------------------------" << std::endl;
+    std::cout << response1.name << std::endl;
+    for(const auto& bus : response1.buses) {
+        std::cout << bus << std::endl;
+    }
+    std::cout << "------------------------------" << std::endl;
+    
+    auto response2 = tc.GetBus("114");
+    std::cout << "------------------------------" << std::endl;
+    std::cout << response2.name << std::endl;
+    std::cout << response2.stops << std::endl;
+    std::cout << response2.unique_stops << std::endl;
+    std::cout << response2.route_length << std::endl;
+    std::cout << response2.route_distance << std::endl;
+    std::cout << response2.curvature << std::endl;
+}
+
 
 int main(int argc, const char * argv[]) {
     
-    string test1 = "/Users/makskryzhanovskiy/Desktop/Projects/catalogue/Tests/test1.txt";
-    string TestStopCommand = "/Users/makskryzhanovskiy/Desktop/Projects/catalogue/Tests/TestStopCommand.txt";
-    
-    std::fstream ifs;
-    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test1.txt");
-    
-    if(!ifs.is_open()) {
-        std::cout << "Something went wrong" << std::endl;
-    } else {
-        JsonReader jr;
-        jr.ReadJson(ifs);
-        jr.Print(std::cout);
-    }
+    TestTransportCatalogue();
     
     return 0;
 }
