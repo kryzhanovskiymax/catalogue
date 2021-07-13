@@ -51,6 +51,11 @@ void JsonReader::Print(std::ostream& os) const {
             }
             dict.insert({"buses", Node(buses_)});
             
+        } else if(std::holds_alternative<ErrorResponse>(element)) {
+            auto error = std::get<ErrorResponse>(element);
+            
+            dict.insert({"request_id", Node(error.request_id)});
+            dict.insert({"error_message", Node(error.error_message)});
         }
         
         array.push_back(Node(dict));
