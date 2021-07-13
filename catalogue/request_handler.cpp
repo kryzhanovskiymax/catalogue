@@ -12,16 +12,31 @@ void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>
 void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue &transport_catalogue_) {
     
     for(const auto& request : requests) {
-        std::variant<std::nullptr_t, StopResponse, BusResponse> response_;
+        std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse> response_;
         if(request.type == QueryType::BusQuery) {
             BusInfo bus = transport_catalogue_.GetBus(request.name);
-            BusResponse bus_response{request.id, bus.curvature, bus.route_distance, bus.stops, bus.unique_stops, bus.exists};
-            response_ = bus_response;
+            if(!bus.exists) {
+                ErrorResponse error_response;
+                error_response.error_message = "not found";
+                error_response.request_id = request.id;
+                response_ = error_response;
+            } else {
+                BusResponse bus_response{request.id, bus.curvature, bus.route_distance, bus.stops, bus.unique_stops, bus.exists};
+                response_ = bus_response;
+            }
             
         } else {
             StopInfo stop = transport_catalogue_.GetStop(request.name);
-            StopResponse stop_response{request.id, stop.buses, stop.exists};
-            response_ = stop_response;
+            
+            if(!stop.exists) {
+                ErrorResponse error_response;
+                error_response.error_message = "not found";
+                error_response.request_id = request.id;
+                response_ = error_response;
+            } else {
+                StopResponse stop_response{request.id, stop.buses, stop.exists};
+                response_ = stop_response;
+            }
         }
         
         responses.push_back(response_);
@@ -29,7 +44,7 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
     
 }
 
-std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse>> RequestHandler::GetResponses() {
+std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> RequestHandler::GetResponses() {
     return responses;
 }
 

@@ -32,6 +32,11 @@ struct StopResponse {
     bool exists;
 };
 
+struct ErrorResponse {
+    int request_id;
+    std::string error_message;
+};
+
 struct Request {
     int id;
     QueryType type;
@@ -46,11 +51,11 @@ class RequestHandler {
 public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse>> GetResponses();
+    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> GetResponses();
     
 private:
     std::vector<detail::Request> requests;
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse>> responses;
+    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
 };
 
 

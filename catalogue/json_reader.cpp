@@ -75,7 +75,7 @@ std::vector<Request> JsonReader::GetRequests() {
     return requests;
 }
 
-void JsonReader::WriteResponse(std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse>> answer) {
+void JsonReader::WriteResponse(std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> answer) {
     response = answer;
 }
 
