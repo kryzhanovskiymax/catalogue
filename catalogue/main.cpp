@@ -67,7 +67,7 @@ using namespace transport_catalogue::request_handler::detail;
 std::string response_field = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.txt";
 
 void TestSystem() {
-    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test1.txt";
+    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json";
     std::fstream ifs;
     ifs.open(path);
     std::fstream ofs;

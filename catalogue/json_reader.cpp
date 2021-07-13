@@ -124,6 +124,7 @@ void JsonReader::ReadStatRequests(const Node& stat_req) {
     
     for(const auto& request : stat_req.AsArray()) {
         Request req;
+        std::set<int> ids;
         req.id = request.AsMap().at("id").AsInt();
         req.name = request.AsMap().at("name").AsString();
         
@@ -132,9 +133,14 @@ void JsonReader::ReadStatRequests(const Node& stat_req) {
         } else if(request.AsMap().at("type").AsString() == "Stop") {
             req.type = QueryType::StopQuery;
         } else {
-            std::cout << request.AsMap().at("type").AsString() << " - Wrong request TYPE" << std::endl;
+            throw std::invalid_argument("Wrong element TYPE");
         }
         
+        
+        if(ids.count(req.id) > 0) {
+            throw std::invalid_argument("This REQUEST_ID already exists");
+        }
+        ids.insert(req.id);
         requests.push_back(req);
     }
 }
