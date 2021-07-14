@@ -52,10 +52,11 @@ public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
     std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> GetResponses();
-    
+
 private:
     std::vector<detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
+    
 };
 
 

@@ -64,9 +64,11 @@ using namespace transport_catalogue::request_handler::detail;
     std::cout << response2.curvature << std::endl;
 }*/
 
-std::string response_field = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.txt";
+std::string response_field = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json";
 
 void TestSystem() {
+    std::cout << "------------------------------" << std::endl;
+    std::cout << "Testing System" << std::endl;
     std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json";
     std::fstream ifs;
     ifs.open(path);
@@ -93,10 +95,7 @@ void TestSystem() {
     }
 }
 
-
 int main(int argc, const char * argv[]) {
-    
     TestSystem();
-    
     return 0;
 }

@@ -1,12 +1,24 @@
 #include "request_handler.hpp"
-
+#include <iostream>
 using namespace transport_catalogue;
 using namespace transport_catalogue::request_handler;
 using namespace transport_catalogue::detail;
 using namespace transport_catalogue::request_handler::detail;
 
 void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>& requests_) {
-    requests = requests_;
+    std::vector<int> ids_vector;
+    for(const auto& elem : requests_) {
+        ids_vector.push_back(elem.id);
+    }
+    
+    std::set<int> ids_set(ids_vector.begin(), ids_vector.end());
+    
+    if(ids_vector.size() == ids_set.size()) {
+        requests = requests_;
+    } else {
+        throw std::invalid_argument("Ids are not unique");
+    }
+    
 }
 
 void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue &transport_catalogue_) {
@@ -47,5 +59,6 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
 std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> RequestHandler::GetResponses() {
     return responses;
 }
+
 
 
