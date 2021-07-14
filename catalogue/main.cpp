@@ -12,7 +12,7 @@
 #include "transport_catalogue.hpp"
 #include "json_reader.hpp"
 #include "request_handler.hpp"
-#include "log_duration.cpp"
+#include "log_duration.hpp"
 
 using namespace std;
 using namespace json;
@@ -54,6 +54,7 @@ void RunSystem() {
 }
 
 int main(int argc, const char * argv[]) {
+    LogDuration("TransportCatalogue system speed test", std::cout);
     RunSystem();
     return 0;
 }
