@@ -36,24 +36,24 @@ void RunSystem() {
     if(!ifs.is_open() || !ofs.is_open()) {
         std::cout << "Something went Wrong" << std::endl;
     } else {
-        std::cout << "File is opened..." << std::endl;
 
         JsonReader jr;
         TransportCatalogue tc;
         RequestHandler rh;
-        
-        std::cout << "System loading..." << std::endl;
         jr.ReadJson(ifs);
         jr.InitializeTransportCatalogue(tc);
         rh.InitializeRequestHandler(jr.GetRequests());
         rh.HandleRequests(tc);
         jr.WriteResponse(rh.GetResponses());
+        std::cout << "Buses: " << tc.GetBusCount() << std::endl;
+        std::cout << "Stops: " << tc.GetStopCount() << std::endl;
         jr.Print(ofs);
         std::cout << "PROGRAMM FINIHED SUCCESFULLY" << std::endl;
     }
 }
 
 int main(int argc, const char * argv[]) {
+    
     LogDuration("TransportCatalogue system speed test", std::cout);
     RunSystem();
     return 0;
