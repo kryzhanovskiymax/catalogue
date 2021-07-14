@@ -13,6 +13,7 @@
 		FA85F637269B244600F6644C /* json.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA85F635269B244600F6644C /* json.cpp */; };
 		FA85F63A269B245900F6644C /* json_reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA85F638269B245800F6644C /* json_reader.cpp */; };
 		FA85F63D269B247600F6644C /* domain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA85F63B269B247600F6644C /* domain.cpp */; };
+		FA85F642269ED7A200F6644C /* log_duration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FA85F641269ED7A200F6644C /* log_duration.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -41,6 +42,7 @@
 		FA85F63B269B247600F6644C /* domain.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = domain.cpp; sourceTree = "<group>"; };
 		FA85F63C269B247600F6644C /* domain.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = domain.hpp; sourceTree = "<group>"; };
 		FA85F63E269B251700F6644C /* geo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = geo.h; sourceTree = "<group>"; };
+		FA85F641269ED7A200F6644C /* log_duration.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = log_duration.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				FA85F628269AECB700F6644C /* main.cpp */,
+				FA85F641269ED7A200F6644C /* log_duration.cpp */,
 				FA85F62F269B241B00F6644C /* transport_catalogue.cpp */,
 				FA85F630269B241B00F6644C /* transport_catalogue.hpp */,
 				FA85F632269B242E00F6644C /* request_handler.cpp */,
@@ -147,6 +150,7 @@
 			files = (
 				FA85F63A269B245900F6644C /* json_reader.cpp in Sources */,
 				FA85F629269AECB700F6644C /* main.cpp in Sources */,
+				FA85F642269ED7A200F6644C /* log_duration.cpp in Sources */,
 				FA85F634269B242E00F6644C /* request_handler.cpp in Sources */,
 				FA85F631269B241B00F6644C /* transport_catalogue.cpp in Sources */,
 				FA85F637269B244600F6644C /* json.cpp in Sources */,
