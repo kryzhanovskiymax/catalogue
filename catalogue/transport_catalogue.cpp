@@ -47,12 +47,17 @@ BusInfo TransportCatalogue::GetBus(std::string_view name) const {
     auto bus = names_to_buses_.at(name);
     size_t stops;
     size_t unique_stops;
+    std::unordered_set<std::string_view> unique_stops_;
+    
+    for(const auto& stop : bus->stops) {
+        unique_stops_.insert(stop->name);
+    }
+    unique_stops = unique_stops_.size();
+    
     if(bus->is_round_trip) {
         stops = bus->stops.size();
-        unique_stops = stops - 1;
     } else {
-        unique_stops = bus->stops.size();
-        stops = unique_stops*2 - 1;
+        stops = bus->stops.size()*2 - 1;
     }
  
     double distance = GetBusRouteDistance(bus);
@@ -98,7 +103,9 @@ double TransportCatalogue::GetBusRouteDistance(Bus* bus) const {
     }
     
     if(!bus->is_round_trip) {
-        distance *= 2;
+        for(int i = bus->stops.size()-2; i >= 0; --i) {
+            distance += GetDistance(bus->stops[i+1], bus->stops[i]);
+        }
     }
     
     return distance;

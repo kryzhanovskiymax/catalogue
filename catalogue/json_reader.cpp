@@ -108,8 +108,10 @@ void JsonReader::ReadBaseRequests(const Node& base_req) {
             sc.coordinates.lat = element.AsMap().at("latitude").AsDouble();
             sc.coordinates.lng = element.AsMap().at("longitude").AsDouble();
             
-            for(const auto& [stop, distance] : element.AsMap().at("road_distances").AsMap()) {
-                sc.stops_to_distances.insert({stop, distance.AsDouble()});
+            if(element.AsMap().count("road_distances") > 0) {
+                for(const auto& [stop, distance] : element.AsMap().at("road_distances").AsMap()) {
+                    sc.stops_to_distances.insert({stop, distance.AsDouble()});
+                }
             }
             
             base_requests.first.push_back(sc);

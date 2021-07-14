@@ -27,7 +27,7 @@ std::string response_field = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Te
 void RunSystem() {
     std::cout << "------------------------------" << std::endl;
     std::cout << "Testing System" << std::endl;
-    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json";
+    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test.json";
     std::fstream ifs;
     ifs.open(path);
     std::fstream ofs;
@@ -48,7 +48,7 @@ void RunSystem() {
         rh.InitializeRequestHandler(jr.GetRequests());
         rh.HandleRequests(tc);
         jr.WriteResponse(rh.GetResponses());
-        jr.Print(ofs);
+        jr.Print(std::cout);
         std::cout << "PROGRAMM FINIHED SUCCESFULLY" << std::endl;
     }
 }

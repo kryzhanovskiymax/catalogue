@@ -5,6 +5,7 @@
 #include <deque>
 #include <unordered_map>
 #include <exception>
+#include <unordered_set>
 
 namespace transport_catalogue {
 
