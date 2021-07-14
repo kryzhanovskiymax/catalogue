@@ -66,7 +66,7 @@ using namespace transport_catalogue::request_handler::detail;
 
 std::string response_field = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json";
 
-void TestSystem() {
+void RunSystem() {
     std::cout << "------------------------------" << std::endl;
     std::cout << "Testing System" << std::endl;
     std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json";
@@ -96,6 +96,6 @@ void TestSystem() {
 }
 
 int main(int argc, const char * argv[]) {
-    TestSystem();
+    RunSystem();
     return 0;
 }
