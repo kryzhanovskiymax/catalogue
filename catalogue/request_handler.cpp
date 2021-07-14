@@ -14,7 +14,7 @@ void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>
     std::set<int> ids_set(ids_vector.begin(), ids_vector.end());
     
     if(ids_vector.size() == ids_set.size()) {
-        requests = requests_;
+        requests = std::move(requests_);
     } else {
         throw std::invalid_argument("Ids are not unique");
     }
@@ -31,10 +31,10 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 ErrorResponse error_response;
                 error_response.error_message = "not found";
                 error_response.request_id = request.id;
-                response_ = error_response;
+                response_ = std::move(error_response);
             } else {
                 BusResponse bus_response{request.id, bus.curvature, bus.route_distance, bus.stops, bus.unique_stops, bus.exists};
-                response_ = bus_response;
+                response_ = std::move(bus_response);
             }
             
         } else {
@@ -44,14 +44,14 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 ErrorResponse error_response;
                 error_response.error_message = "not found";
                 error_response.request_id = request.id;
-                response_ = error_response;
+                response_ = std::move(error_response);
             } else {
-                StopResponse stop_response{request.id, stop.buses, stop.exists};
-                response_ = stop_response;
+                StopResponse stop_response{request.id, std::move(stop.buses), stop.exists};
+                response_ = std::move(stop_response);
             }
         }
         
-        responses.push_back(response_);
+        responses.push_back(std::move(response_));
     }
     
 }

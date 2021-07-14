@@ -15,26 +15,26 @@ void TransportCatalogue::AddBus(const BusCommand& command) {
         }
     }
     
-    Bus bus{command.name, stops_, command.is_round_trip};
-    buses.push_back(bus);
-    names_to_buses_.insert(std::make_pair(name, &buses.back()));
+    Bus bus{std::move(command.name), stops_, command.is_round_trip};
+    buses.push_back(std::move(bus));
+    names_to_buses_.insert(std::make_pair(std::move(name), &buses.back()));
 }
 
 void TransportCatalogue::AddStop(const StopCommand& command) {
     std::string_view name(command.name);
     Stop stop;
-    stop.name = command.name;
+    stop.name = std::move(command.name);
     stop.coordinates.lat = command.coordinates.lat;
     stop.coordinates.lng = command.coordinates.lng;
     
     for(const auto& [stop_copy, distance] : command.stops_to_distances) {
         std::string_view stop_str = stop_copy;
-        stop.stops_to_distances.insert({stop_str, distance});
+        stop.stops_to_distances.insert({std::move(stop_str), distance});
     }
     
-    stops.push_back(stop);
+    stops.push_back(std::move(stop));
 
-    names_to_stops_.insert(std::make_pair(name, &stops.back()));
+    names_to_stops_.insert(std::make_pair(std::move(name), &stops.back()));
 }
 
 BusInfo TransportCatalogue::GetBus(std::string_view name) const {
@@ -94,6 +94,14 @@ double TransportCatalogue::GetDistance(Stop* from, Stop* to) const {
     }
         
     return to->stops_to_distances.at(from->name);
+}
+
+size_t TransportCatalogue::GetStopCount() const {
+    return stops.size();
+}
+
+size_t TransportCatalogue::GetBusCount() const {
+    return buses.size();
 }
 
 double TransportCatalogue::GetBusRouteDistance(Bus* bus) const {

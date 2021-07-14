@@ -16,6 +16,8 @@ public:
     detail::BusInfo GetBus(std::string_view name) const;
     detail::StopInfo GetStop(std::string_view name) const;
     double GetDistance(detail::Stop* from, detail::Stop* to) const;
+    size_t GetStopCount() const;
+    size_t GetBusCount() const;
     
 private:
     std::deque<detail::Bus> buses;
