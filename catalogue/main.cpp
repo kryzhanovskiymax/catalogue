@@ -25,9 +25,7 @@ using namespace transport_catalogue::request_handler::detail;
 std::string response_field = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json";
 
 void RunSystem() {
-    std::cout << "------------------------------" << std::endl;
-    std::cout << "Testing System" << std::endl;
-    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json";
+    std::string path = "/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test.json";
     std::fstream ifs;
     ifs.open(path);
     std::fstream ofs;
@@ -45,10 +43,7 @@ void RunSystem() {
         rh.InitializeRequestHandler(jr.GetRequests());
         rh.HandleRequests(tc);
         jr.WriteResponse(rh.GetResponses());
-        std::cout << "Buses: " << tc.GetBusCount() << std::endl;
-        std::cout << "Stops: " << tc.GetStopCount() << std::endl;
-        jr.Print(ofs);
-        std::cout << "PROGRAMM FINIHED SUCCESFULLY" << std::endl;
+        jr.Print(std::cout);
     }
 }
 

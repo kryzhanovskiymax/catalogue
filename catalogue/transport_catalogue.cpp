@@ -111,7 +111,7 @@ double TransportCatalogue::GetBusRouteDistance(Bus* bus) const {
     }
     
     if(!bus->is_round_trip) {
-        for(size_t i = static_cast<size_t>(bus->stops.size()-2); i >= 0; --i) {
+        for(int i = static_cast<int>(bus->stops.size()-2); i >= 0; --i) {
             distance += GetDistance(bus->stops[i+1], bus->stops[i]);
         }
     }
