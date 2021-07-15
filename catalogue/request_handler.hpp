@@ -55,6 +55,7 @@ public:
     size_t GetRequestCount() const;
 
 private:
+    
     std::vector<detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
     

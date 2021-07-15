@@ -21,7 +21,7 @@ void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>
     
 }
 
-void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue &transport_catalogue_) {
+void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_) {
     
     for(const auto& request : requests) {
         std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse> response_;
