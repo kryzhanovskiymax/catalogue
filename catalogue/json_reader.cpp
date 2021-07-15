@@ -89,32 +89,11 @@ void JsonReader::ReadBaseRequests(const Node& base_req) {
         
         if(element.AsMap().at("type").AsString() == "Bus") {
             
-            BusCommand bc;
-            
-            bc.name = element.AsMap().at("name").AsString();
-            bc.is_round_trip = element.AsMap().at("is_roundtrip").AsBool();
-            
-            for(const auto& stop : element.AsMap().at("stops").AsArray()) {
-                bc.stops.push_back(stop.AsString());
-            }
-            
-            base_requests.second.push_back(bc);
+            base_requests.second.push_back(GetBusCommandFromNode(element));
             
         } else if(element.AsMap().at("type").AsString() == "Stop") {
             
-            StopCommand sc;
-            
-            sc.name = element.AsMap().at("name").AsString();
-            sc.coordinates.lat = element.AsMap().at("latitude").AsDouble();
-            sc.coordinates.lng = element.AsMap().at("longitude").AsDouble();
-            
-            if(element.AsMap().count("road_distances") > 0) {
-                for(const auto& [stop, distance] : element.AsMap().at("road_distances").AsMap()) {
-                    sc.stops_to_distances.insert({stop, distance.AsDouble()});
-                }
-            }
-            
-            base_requests.first.push_back(sc);
+            base_requests.first.push_back(GetStopCommandFromNode(element));
             
         } else {
             std::cout << element.AsMap().at("type").AsString() << " - Wrong element TYPE" << std::endl;
@@ -123,21 +102,55 @@ void JsonReader::ReadBaseRequests(const Node& base_req) {
 }
 
 void JsonReader::ReadStatRequests(const Node& stat_req) {
-    
     for(const auto& request : stat_req.AsArray()) {
-        Request req;
-
-        req.id = request.AsMap().at("id").AsInt();
-        req.name = request.AsMap().at("name").AsString();
-        
-        if(request.AsMap().at("type").AsString() == "Bus") {
-            req.type = QueryType::BusQuery;
-        } else if(request.AsMap().at("type").AsString() == "Stop") {
-            req.type = QueryType::StopQuery;
-        } else {
-            throw std::invalid_argument("Wrong element TYPE");
-        }
-        
-        requests.push_back(req);
+        requests.push_back(GetRequestFromNode(request));
     }
+}
+
+BusCommand JsonReader::GetBusCommandFromNode(const Node& node) const {
+    BusCommand bc;
+    
+    bc.name = std::move(node.AsMap().at("name").AsString());
+    bc.is_round_trip = node.AsMap().at("is_roundtrip").AsBool();
+    
+    if(node.AsMap().count("stops") > 0) {
+        for(const auto& stop : node.AsMap().at("stops").AsArray()) {
+            bc.stops.push_back(std::move(stop.AsString()));
+        }
+    }
+    
+    return bc;
+}
+
+StopCommand JsonReader::GetStopCommandFromNode(const Node& node) const {
+    StopCommand sc;
+    
+    sc.name = std::move(node.AsMap().at("name").AsString());
+    sc.coordinates.lat = node.AsMap().at("latitude").AsDouble();
+    sc.coordinates.lng = node.AsMap().at("longitude").AsDouble();
+    
+    if(node.AsMap().count("road_distances") > 0) {
+        for(const auto& [stop, distance] : node.AsMap().at("road_distances").AsMap()) {
+            sc.stops_to_distances.insert({std::move(stop), distance.AsDouble()});
+        }
+    }
+    
+    return sc;
+}
+
+Request JsonReader::GetRequestFromNode(const Node& node) const {
+    Request req;
+
+    req.id = node.AsMap().at("id").AsInt();
+    req.name = std::move(node.AsMap().at("name").AsString());
+    
+    if(node.AsMap().at("type").AsString() == "Bus") {
+        req.type = QueryType::BusQuery;
+    } else if(node.AsMap().at("type").AsString() == "Stop") {
+        req.type = QueryType::StopQuery;
+    } else {
+        throw std::invalid_argument("Wrong element TYPE");
+    }
+    
+    return req;
 }
