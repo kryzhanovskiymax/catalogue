@@ -52,6 +52,7 @@ public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
     std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> GetResponses();
+    size_t GetRequestCount() const;
 
 private:
     std::vector<detail::Request> requests;

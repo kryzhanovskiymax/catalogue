@@ -60,5 +60,9 @@ std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorRespons
     return responses;
 }
 
+size_t RequestHandler::GetRequestCount() const {
+    return requests.size();
+}
+
 
 

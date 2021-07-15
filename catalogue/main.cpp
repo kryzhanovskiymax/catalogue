@@ -34,6 +34,9 @@ void RunSystem(std::fstream& ifs, std::fstream& ofs) {
     rh.InitializeRequestHandler(jr.GetRequests());
     rh.HandleRequests(tc);
     jr.WriteResponse(rh.GetResponses());
+    std::cout << "Buses: " << tc.GetBusCount() << std::endl;
+    std::cout << "Stops: " << tc.GetStopCount() << std::endl;
+    std::cout << "Requests: " << rh.GetRequestCount() << std::endl;
     jr.Print(ofs);
 }
 
