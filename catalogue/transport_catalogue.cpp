@@ -134,10 +134,10 @@ double TransportCatalogue::GetBusRouteLength(Bus* bus) const {
             length += ComputeDistance(bus->stops[i-1]->coordinates, bus->stops[i]->coordinates);
         }
     
-        if(bus->is_round_trip) {
-            length += ComputeDistance(bus->stops[bus->stops.size()-1]->coordinates, bus->stops[0]->coordinates);
-        } else {
-            length *= 2;
+        if(!bus->is_round_trip) {
+            for(int i = static_cast<int>(bus->stops.size()-2); i >= 0; --i) {
+                length += ComputeDistance(bus->stops[i+1]->coordinates, bus->stops[i]->coordinates);
+            }
         }
     }
     
