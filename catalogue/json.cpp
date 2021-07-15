@@ -450,7 +450,7 @@ ostream& operator<<(ostream& output, const Node& node) {
         }
 
         else if (node.IsDouble()) {
-            output << node.AsDouble();
+            output << std::hex << node.AsDouble();
         }
 
         else if (node.IsString()) {

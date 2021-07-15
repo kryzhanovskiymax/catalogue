@@ -65,9 +65,9 @@ int main(int argc, const char * argv[]) {
     test4_response.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test4_response.json");*/
     
     std::fstream ifs;
-    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json");
+    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test5.json");
     std::fstream ofs;
-    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json");
+    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test5_response.json");
     
     const Clock::time_point start_time = Clock::now();
     
