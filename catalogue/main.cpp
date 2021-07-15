@@ -26,6 +26,11 @@ void RunSystem() {
 }
 
 int main() {
+    std::ifstream ifs;
+    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json");
+    std::ofstream ofs;
+    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json");
+    
     RunSystem();
     return 0;
 }
