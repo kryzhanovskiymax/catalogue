@@ -31,31 +31,16 @@ void JsonReader::Print(std::ostream& os) const {
         
         if(std::holds_alternative<BusResponse>(element)) {
             
-            auto bus = std::get<BusResponse>(element);
-            dict.insert({"request_id", Node(bus.request_id)});
-            dict.insert({"curvature", Node(bus.curvature)});
-            dict.insert({"route_length", Node(bus.route_length)});
-            dict.insert({"stop_count", Node(static_cast<int>(bus.stop_count))});
-            dict.insert({"unique_stop_count", Node(static_cast<int>(bus.unique_stop_count))});
+            InsertBusResponse(std::get<BusResponse>(element), dict);
             
         } else if(std::holds_alternative<StopResponse>(element)) {
             
-            auto stop = std::get<StopResponse>(element);
-            
-            dict.insert({"request_id", Node(stop.request_id)});
-            
-            std::vector<Node> buses_;
-            for(const auto& bus : stop.buses) {
-                std::string str = static_cast<std::string>(bus);
-                buses_.push_back(Node(str));
-            }
-            dict.insert({"buses", Node(buses_)});
+            InsertStopResponse(std::get<StopResponse>(element), dict);
             
         } else if(std::holds_alternative<ErrorResponse>(element)) {
-            auto error = std::get<ErrorResponse>(element);
             
-            dict.insert({"request_id", Node(error.request_id)});
-            dict.insert({"error_message", Node(error.error_message)});
+            InsertErrorResponse(std::get<ErrorResponse>(element), dict);
+            
         }
         
         array.push_back(Node(dict));
@@ -86,7 +71,6 @@ void JsonReader::WriteResponse(std::vector<std::variant<std::nullptr_t, StopResp
 
 void JsonReader::ReadBaseRequests(const Node& base_req) {
     for(const auto& element : base_req.AsArray()) {
-        
         if(element.AsMap().at("type").AsString() == "Bus") {
             
             base_requests.second.push_back(GetBusCommandFromNode(element));
@@ -153,4 +137,29 @@ Request JsonReader::GetRequestFromNode(const Node& node) const {
     }
     
     return req;
+}
+
+void JsonReader::InsertBusResponse(request_handler::detail::BusResponse bus, std::map<std::string, json::Node>& target) const {
+    target.insert({"request_id", Node(bus.request_id)});
+    target.insert({"curvature", Node(bus.curvature)});
+    target.insert({"route_length", Node(bus.route_length)});
+    target.insert({"stop_count", Node(static_cast<int>(bus.stop_count))});
+    target.insert({"unique_stop_count", Node(static_cast<int>(bus.unique_stop_count))});
+}
+
+void JsonReader::InsertStopResponse(request_handler::detail::StopResponse stop, std::map<std::string, json::Node>& target) const {
+    
+    target.insert({"request_id", Node(stop.request_id)});
+    
+    std::vector<Node> buses_;
+    for(const auto& bus : stop.buses) {
+        std::string str = static_cast<std::string>(bus);
+        buses_.push_back(Node(str));
+    }
+    target.insert({"buses", Node(buses_)});
+}
+
+void JsonReader::InsertErrorResponse(request_handler::detail::ErrorResponse error, std::map<std::string, json::Node>& target) const {
+    target.insert({"request_id", Node(error.request_id)});
+    target.insert({"error_message", Node(std::move(error.error_message))});
 }
