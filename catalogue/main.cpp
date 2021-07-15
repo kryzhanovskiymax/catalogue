@@ -16,8 +16,6 @@ using namespace transport_catalogue::request_handler::detail;
 
 
 void RunSystem(std::istream& is, std::ostream& os) {
-    
-    
     JsonReader jr;
     TransportCatalogue tc;
     RequestHandler rh;
