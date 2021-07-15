@@ -41,7 +41,7 @@ BusInfo TransportCatalogue::GetBus(std::string_view name) const {
     BusInfo result;
     
     if(names_to_buses_.count(name) == 0) {
-        return BusInfo{name, 0, 0, 0.0, 0.0, 0.0, false};
+        return BusInfo{std::move(name), 0, 0, 0.0, 0.0, 0.0, false};
     }
     
     auto bus = names_to_buses_.at(name);
@@ -75,7 +75,7 @@ StopInfo TransportCatalogue::GetStop(std::string_view name) const {
     
     std::set<std::string_view> buses_;
     if(names_to_stops_.count(name) == 0) {
-        return StopInfo{name, {}, false};
+        return StopInfo{std::move(name), {}, false};
     }
     
     for(const auto& bus : buses) {
