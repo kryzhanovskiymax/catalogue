@@ -5,9 +5,9 @@ using namespace transport_catalogue;
 using namespace transport_catalogue::detail;
 
 void TransportCatalogue::AddBus(const BusCommand& command) {
-    std::string_view name(command.name);
+    std::string name(command.name);
     std::vector<Stop*> stops_;
-    for(std::string_view stop_name : command.stops) {
+    for(std::string stop_name : command.stops) {
         if(names_to_stops_.count(stop_name) > 0) {
             stops_.push_back(names_to_stops_.at(stop_name));
         } else {
@@ -21,15 +21,14 @@ void TransportCatalogue::AddBus(const BusCommand& command) {
 }
 
 void TransportCatalogue::AddStop(const StopCommand& command) {
-    std::string_view name(command.name);
+    std::string name(command.name);
     Stop stop;
     stop.name = command.name;
     stop.coordinates.lat = command.coordinates.lat;
     stop.coordinates.lng = command.coordinates.lng;
     
     for(const auto& [stop_copy, distance] : command.stops_to_distances) {
-        std::string_view stop_str = stop_copy;
-        stop.stops_to_distances.insert({stop_str, distance});
+        distances_.insert({std::make_pair(stop.name, stop_copy), distance});
     }
     
     stops.push_back(std::move(stop));
@@ -37,7 +36,7 @@ void TransportCatalogue::AddStop(const StopCommand& command) {
     names_to_stops_.insert(std::make_pair(std::move(name), &stops.back()));
 }
 
-BusInfo TransportCatalogue::GetBus(std::string_view name) const {
+BusInfo TransportCatalogue::GetBus(std::string name) const {
     BusInfo result;
     
     if(names_to_buses_.count(name) == 0) {
@@ -47,7 +46,7 @@ BusInfo TransportCatalogue::GetBus(std::string_view name) const {
     auto bus = names_to_buses_.at(name);
     size_t stops;
     size_t unique_stops;
-    std::unordered_set<std::string_view> unique_stops_;
+    std::unordered_set<std::string> unique_stops_;
     
     for(const auto& stop : bus->stops) {
         unique_stops_.insert(stop->name);
@@ -71,9 +70,9 @@ BusInfo TransportCatalogue::GetBus(std::string_view name) const {
     return BusInfo{name, stops, unique_stops, curvature, distance, length, true};
 }
 
-StopInfo TransportCatalogue::GetStop(std::string_view name) const {
+StopInfo TransportCatalogue::GetStop(std::string name) const {
     
-    std::set<std::string_view> buses_;
+    std::set<std::string> buses_;
     if(names_to_stops_.count(name) == 0) {
         return StopInfo{name, {}, false};
     }
@@ -81,8 +80,8 @@ StopInfo TransportCatalogue::GetStop(std::string_view name) const {
     for(const auto& bus : buses) {
         for(auto stop : bus.stops) {
             if(name == stop->name) {
-                std::string_view copy(bus.name);
-                buses_.insert(copy);
+                std::string copy(bus.name);
+                buses_.insert(std::move(copy));
                 break;
             }
         }
@@ -93,11 +92,11 @@ StopInfo TransportCatalogue::GetStop(std::string_view name) const {
 }
 
 double TransportCatalogue::GetDistance(Stop* from, Stop* to) const {
-    if(from->stops_to_distances.count(to->name) > 0) {
-        return from->stops_to_distances.at(to->name);
+    if(distances_.count(std::make_pair(from->name, to->name)) == 0) {
+        return distances_.at(std::make_pair(to->name, from->name));
     }
-        
-    return to->stops_to_distances.at(from->name);
+    
+    return distances_.at(std::make_pair(from->name, to->name));
 }
 
 size_t TransportCatalogue::GetStopCount() const {

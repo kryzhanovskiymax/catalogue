@@ -28,7 +28,7 @@ struct BusResponse {
     
 struct StopResponse {
     int request_id;
-    std::set<std::string_view> buses;
+    std::set<std::string> buses;
     bool exists;
 };
 

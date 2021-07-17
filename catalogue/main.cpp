@@ -34,7 +34,7 @@ int main() {
     ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json");
     
     std::cout << "System is running" << std::endl;
-    RunSystem(ifs, ofs);
+    RunSystem(std::cin, std::cout);
     std::cout << "System run is finished" << std::endl;
     
     return 0;

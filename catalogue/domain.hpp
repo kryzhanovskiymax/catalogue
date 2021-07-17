@@ -15,31 +15,30 @@ namespace detail {
 
 struct Stop {
     
-    std::string_view name;
+    std::string name;
     Coordinates coordinates;
-    std::unordered_map<std::string_view, double> stops_to_distances;
     
-    Stop(std::string_view name_, Coordinates coordinates_, std::unordered_map<std::string_view, double> stops_to_distances_);
+    Stop(std::string name_, Coordinates coordinates_);
     Stop() = default;
 };
 
 struct Bus {
-    std::string_view name;
+    std::string name;
     std::vector<Stop*> stops;
     bool is_round_trip;
     
-    Bus(std::string_view name_, std::vector<Stop*> stops_, bool is_round_trip_);
+    Bus(std::string name_, std::vector<Stop*> stops_, bool is_round_trip_);
     Bus() = default;
 };
 
 struct StopInfo {
-    std::string_view name;
-    std::set<std::string_view> buses;
+    std::string name;
+    std::set<std::string> buses;
     bool exists;
 };
 
 struct BusInfo {
-    std::string_view name;
+    std::string name;
     size_t stops;
     size_t unique_stops;
     double curvature;
@@ -51,7 +50,7 @@ struct BusInfo {
 struct StopCommand {
     std::string name;
     Coordinates coordinates;
-    std::unordered_map<std::string, double> stops_to_distances;
+    std::unordered_map<std::string, int> stops_to_distances;
 };
 
 struct BusCommand {
