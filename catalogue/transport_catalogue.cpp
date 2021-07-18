@@ -140,6 +140,10 @@ double TransportCatalogue::GetBusRouteLength(Bus* bus) const {
         }
     }
     
+    if(length == 0) {
+        length = 1;
+    }
+    
     return length;
 }
 
