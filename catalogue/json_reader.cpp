@@ -30,15 +30,12 @@ void JsonReader::Print(std::ostream& os) const {
         std::map<std::string, Node> dict;
         
         if(std::holds_alternative<BusResponse>(element)) {
-            
             InsertBusResponse(std::get<BusResponse>(element), dict);
             
         } else if(std::holds_alternative<StopResponse>(element)) {
-            
             InsertStopResponse(std::get<StopResponse>(element), dict);
             
         } else if(std::holds_alternative<ErrorResponse>(element)) {
-            
             InsertErrorResponse(std::get<ErrorResponse>(element), dict);
             
         }
@@ -140,7 +137,9 @@ Request JsonReader::GetRequestFromNode(const Node& node) const {
 }
 
 void JsonReader::InsertBusResponse(request_handler::detail::BusResponse bus, std::map<std::string, json::Node>& target) const {
-    target.insert({"request_id", Node(bus.request_id)});
+    
+    double id = static_cast<int>(bus.request_id)*1.0;
+    target.insert({"request_id", Node(id)});
     target.insert({"curvature", Node(bus.curvature)});
     target.insert({"route_length", Node(bus.route_length)});
     target.insert({"stop_count", Node(static_cast<int>(bus.stop_count))});
@@ -149,7 +148,8 @@ void JsonReader::InsertBusResponse(request_handler::detail::BusResponse bus, std
 
 void JsonReader::InsertStopResponse(request_handler::detail::StopResponse stop, std::map<std::string, json::Node>& target) const {
     
-    target.insert({"request_id", Node(stop.request_id)});
+    double id = static_cast<int>(stop.request_id)*1.0;
+    target.insert({"request_id", Node(id)});
     
     std::vector<Node> buses_;
     for(const auto& bus : stop.buses) {
@@ -160,6 +160,7 @@ void JsonReader::InsertStopResponse(request_handler::detail::StopResponse stop, 
 }
 
 void JsonReader::InsertErrorResponse(request_handler::detail::ErrorResponse error, std::map<std::string, json::Node>& target) const {
-    target.insert({"request_id", Node(error.request_id)});
+    double id = static_cast<int>(error.request_id)*1.0;
+    target.insert({"request_id", Node(id)});
     target.insert({"error_message", Node(std::move(error.error_message))});
 }

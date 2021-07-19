@@ -65,7 +65,12 @@ BusInfo TransportCatalogue::GetBus(std::string name) const {
  
     double distance = GetBusRouteDistance(bus);
     double length = GetBusRouteLength(bus);
-    double curvature = distance / length;
+    double curvature;
+    if(length == 0) {
+        curvature = distance / 1;
+    } else {
+        curvature = distance / length;
+    }
 
     return BusInfo{name, stops, unique_stops, curvature, distance, length, true};
 }
@@ -139,11 +144,6 @@ double TransportCatalogue::GetBusRouteLength(Bus* bus) const {
             }
         }
     }
-    
-    if(length == 0) {
-        length = 1;
-    }
-    
     return length;
 }
 

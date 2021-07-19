@@ -18,7 +18,7 @@ enum class QueryType {
 };
 
 struct BusResponse {
-    int request_id;
+    size_t request_id;
     double curvature;
     double route_length;
     size_t stop_count;
@@ -27,18 +27,18 @@ struct BusResponse {
 };
     
 struct StopResponse {
-    int request_id;
+    size_t request_id;
     std::set<std::string> buses;
     bool exists;
 };
 
 struct ErrorResponse {
-    int request_id;
+    size_t request_id;
     std::string error_message;
 };
 
 struct Request {
-    int id;
+    size_t id;
     QueryType type;
     std::string name;
 };
