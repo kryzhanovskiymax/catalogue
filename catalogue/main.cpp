@@ -29,9 +29,9 @@ void RunSystem(std::istream& is, std::ostream& os) {
 
 int main() {
     std::ifstream ifs;
-    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json");
+    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test5.json");
     std::ofstream ofs;
-    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json");
+    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test5_response.json");
     
     std::cout << "System is running" << std::endl;
     RunSystem(ifs, ofs);
