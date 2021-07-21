@@ -1,13 +1,14 @@
-//
-//  map_renderer.hpp
-//  catalogue
-//
-//  Created by Максим Крыжановский on 15.07.2021.
-//
+#pragma once
 
-#ifndef map_renderer_hpp
-#define map_renderer_hpp
+#include "transport_catalogue.hpp"
+#include "json_reader.hpp"
 
-#include <stdio.h>
+namespace transport_catalogue {
 
-#endif /* map_renderer_hpp */
+namespace map_renderer {
+
+
+
+}
+
+}

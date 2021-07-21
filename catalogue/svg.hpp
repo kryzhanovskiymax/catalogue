@@ -88,6 +88,7 @@ class Polyline final : public Object {
 public:
     // Добавляет очередную вершину к ломаной линии
     Polyline& AddPoint(Point point);
+    
 
 private:
     std::vector<Point> points_;
