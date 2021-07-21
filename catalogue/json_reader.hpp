@@ -3,6 +3,7 @@
 #include "domain.hpp"
 #include "request_handler.hpp"
 #include "json.hpp"
+#include "map_renderer.hpp"
 
 namespace transport_catalogue {
 
@@ -15,6 +16,7 @@ public:
     void InitializeTransportCatalogue(TransportCatalogue& transport_catalogue);
     std::vector<transport_catalogue::request_handler::detail::Request> GetRequests();
     void WriteResponse(std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> answer);
+    void SetMapSettings(transport_catalogue::map_renderer::MapRenderer& map);
     
 private:
     void ReadBaseRequests(const json::Node& base_req);
