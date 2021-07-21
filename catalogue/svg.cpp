@@ -1,6 +1,7 @@
-#include "svg.h"
+#include "svg.hpp"
  
-namespace svg {
+using namespace svg;
+
  
 using namespace std::literals;
     
@@ -64,16 +65,6 @@ std::ostream& StrokeLineJoinOutput(std::ostream& out, svg::StrokeLineJoin join) 
     }
     
     return out;
-}
-
-std::ostream& operator<<(std::ostream& os, svg::StrokeLineCap cap) {
-    StrokeLineCapOutput(os, cap);
-    return os;
-}
-    
-std::ostream& operator<<(std::ostream& os, svg::StrokeLineJoin join) {
-    StrokeLineJoinOutput(os, join);
-    return os;
 }
     
 void Object::Render(const RenderContext& context) const {
@@ -187,4 +178,4 @@ void Circle::RenderObject(const RenderContext& context) const {
         
     }
  
-}
+

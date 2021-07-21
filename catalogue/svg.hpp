@@ -60,9 +60,15 @@ std::ostream& StrokeLineCapOutput(std::ostream& out, svg::StrokeLineCap cap);
 
 std::ostream& StrokeLineJoinOutput(std::ostream& out, svg::StrokeLineJoin join);
 
-std::ostream& operator<<(std::ostream& os, svg::StrokeLineCap cap);
+std::ostream& operator<<(std::ostream& os, svg::StrokeLineCap cap) {
+    StrokeLineCapOutput(os, cap);
+    return os;
+}
     
-std::ostream& operator<<(std::ostream& os, svg::StrokeLineJoin join);
+std::ostream& operator<<(std::ostream& os, svg::StrokeLineJoin join) {
+    StrokeLineJoinOutput(os, join);
+    return os;
+}
  
 struct Point {
     Point() = default;
@@ -274,3 +280,4 @@ public:
  
     virtual ~Drawable() = default;
 };
+}
