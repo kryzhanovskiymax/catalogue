@@ -1,7 +1,6 @@
 #pragma once
 
 #include "domain.hpp"
-#include "map_renderer.hpp"
 
 #include <deque>
 #include <unordered_map>
@@ -19,7 +18,6 @@ public:
     double GetDistance(detail::Stop* from, detail::Stop* to) const;
     size_t GetStopCount() const;
     size_t GetBusCount() const;
-    void FillMap(map_renderer::MapRenderer& map);
     
 private:
     std::deque<detail::Bus> buses;

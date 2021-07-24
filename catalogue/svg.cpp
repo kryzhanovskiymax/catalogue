@@ -42,30 +42,6 @@ std::ostream& StrokeLineCapOutput(std::ostream& out, svg::StrokeLineCap cap) {
     
     return out;
 }
-
-std::ostream& StrokeLineJoinOutput(std::ostream& out, svg::StrokeLineJoin join) {
-    if(join == svg::StrokeLineJoin::ARCS) {
-        out << "arcs";
-    }
-            
-    if(join == svg::StrokeLineJoin::BEVEL) {
-        out << "bevel";
-    }
-            
-    if(join == svg::StrokeLineJoin::MITER) {
-        out << "miter";
-    }
-            
-    if(join == svg::StrokeLineJoin::MITER_CLIP) {
-        out << "miter-clip";
-    }
-            
-    if(join == svg::StrokeLineJoin::ROUND) {
-        out << "round";
-    }
-    
-    return out;
-}
     
 void Object::Render(const RenderContext& context) const {
     context.RenderIndent();
