@@ -4,6 +4,8 @@
 #include "transport_catalogue.hpp"
 #include "json_reader.hpp"
 #include "request_handler.hpp"
+#include "map_renderer.hpp"
+#include "svg_package.hpp"
 
 using namespace std;
 using namespace json;

@@ -1,10 +1,7 @@
-#include "map_renderer.hpp"
 
-using namespace transport_catalogue;
-using namespace transport_catalogue::detail;
-using namespace transport_catalogue::map_renderer;
+//using namespace transport_catalogue::map_renderer;
 
-void MapRenderer::CreateMap(std::vector<std::string, std::pair<bool, std::vector<std::string>>> buses, std::vector<std::pair<std::string, Coordinates>> stops) {
+/*void MapRenderer::CreateMap(std::vector<std::string, std::pair<bool, std::vector<std::string>>> buses, std::vector<std::pair<std::string, Coordinates>> stops) {
     
 }
 
@@ -46,4 +43,4 @@ svg::Point MapRenderer::TransformCoordinateToPoint(Coordinates coordinates) {
     double y = (max_lat - coordinates.lat)*zoom_coef + padding;
     
     return svg::Point{x, y};
-}
+}*/

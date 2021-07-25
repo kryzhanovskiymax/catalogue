@@ -1,5 +1,5 @@
 #pragma once
- 
+
 #include <cstdint>
 #include <iostream>
 #include <memory>
@@ -56,55 +56,13 @@ enum class StrokeLineJoin {
     ROUND,
 };
     
-std::ostream& StrokeLineCapOutput(std::ostream& out, svg::StrokeLineCap cap) {
-    if(cap == svg::StrokeLineCap::BUTT) {
-        out << "butt";
-    }
-           
-    if(cap == svg::StrokeLineCap::SQUARE) {
-        out << "square";
-    }
-            
-    if(cap == svg::StrokeLineCap::ROUND) {
-        out << "round";
-    }
-    
-    return out;
-}
+std::ostream& StrokeLineCapOutput(std::ostream& out, svg::StrokeLineCap cap);
 
-std::ostream& StrokeLineJoinOutput(std::ostream& out, svg::StrokeLineJoin join) {
-    if(join == svg::StrokeLineJoin::ARCS) {
-        out << "arcs";
-    }
-            
-    if(join == svg::StrokeLineJoin::BEVEL) {
-        out << "bevel";
-    }
-            
-    if(join == svg::StrokeLineJoin::MITER) {
-        out << "miter";
-    }
-            
-    if(join == svg::StrokeLineJoin::MITER_CLIP) {
-        out << "miter-clip";
-    }
-            
-    if(join == svg::StrokeLineJoin::ROUND) {
-        out << "round";
-    }
-    
-    return out;
-}
+std::ostream& StrokeLineJoinOutput(std::ostream& out, svg::StrokeLineJoin join);
 
-std::ostream& operator<<(std::ostream& os, svg::StrokeLineCap cap) {
-    StrokeLineCapOutput(os, cap);
-    return os;
-}
+std::ostream& operator<<(std::ostream& os, svg::StrokeLineCap cap);
     
-std::ostream& operator<<(std::ostream& os, svg::StrokeLineJoin join) {
-    StrokeLineJoinOutput(os, join);
-    return os;
-}
+std::ostream& operator<<(std::ostream& os, svg::StrokeLineJoin join);
  
 struct Point {
     Point() = default;
@@ -316,4 +274,5 @@ public:
  
     virtual ~Drawable() = default;
 };
-}
+ 
+}  // namespace svg
