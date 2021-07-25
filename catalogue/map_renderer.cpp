@@ -4,7 +4,7 @@ using namespace transport_catalogue;
 using namespace transport_catalogue::detail;
 using namespace transport_catalogue::map_renderer;
 
-void MapRenderer::CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates) {
+void MapRenderer::CalculateCoefficients(std::vector<Coordinates> stops_coordinates) {
     std::vector<double> longitudes;
     std::vector<double> latitudes;
     
@@ -18,11 +18,24 @@ void MapRenderer::CalculateCoefficients(std::vector<transport_catalogue::detail:
     min_lng = *std::min(longitudes.begin(), longitudes.end());
     max_lng = *std::max(longitudes.begin(), longitudes.end());
     
-    height_zoom_coef = (height - 2*padding)/(max_lat - min_lat);
-    width_zoom_coef = (width - 2*padding)/(max_lng-min_lng);
+    double height_zoom_coef = (height - 2*padding)/(max_lat - min_lat);
+    double width_zoom_coef = (width - 2*padding)/(max_lng-min_lng);
+    
+    if(height_zoom_coef == 0) {
+        zoom_coef = width_zoom_coef;
+    } else if(width_zoom_coef == 0) {
+        zoom_coef = height_zoom_coef;
+    } else {
+        zoom_coef = std::min(height_zoom_coef, width_zoom_coef);
+    }
 }
 
-
+svg::Point MapRenderer::TranslateCoordinatesToPoint(Coordinates coordinates) {
+    double x = (coordinates.lng - min_lng)*zoom_coef + padding;
+    double y = (max_lat - coordinates.lat)*zoom_coef + padding;
+    
+    return svg::Point{x, y};
+}
 
 void MapRenderer::SetWidth(double width_) {
     width = width_;

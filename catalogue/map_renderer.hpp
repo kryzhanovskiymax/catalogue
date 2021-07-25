@@ -50,8 +50,7 @@ private:
     double min_lng;
     double max_lng;
     
-    double height_zoom_coef = 0;
-    double width_zoom_coef = 0;
+    double zoom_coef = 0;
     
     svg::Point TranslateCoordinatesToPoint(transport_catalogue::detail::Coordinates coordinates);
 };
