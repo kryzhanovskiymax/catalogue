@@ -31,6 +31,7 @@ public:
     void SetUnderlayerColor(svg::Color underlayer_color_);
     void SetColorPalette(std::vector<svg::Color> color_palette_);
 private:
+    svg::Document map_document;
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;
     std::map<std::string, svg::Point> stop_to_position;
     

@@ -4,6 +4,8 @@ using namespace transport_catalogue;
 using namespace transport_catalogue::detail;
 using namespace transport_catalogue::map_renderer;
 
+void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
+
 void MapRenderer::CalculateCoefficients(std::vector<Coordinates> stops_coordinates) {
     std::vector<double> longitudes;
     std::vector<double> latitudes;
