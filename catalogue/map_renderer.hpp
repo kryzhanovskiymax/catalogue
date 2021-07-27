@@ -18,7 +18,6 @@ namespace map_renderer {
 class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
-    void CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates);
     
     void SetWidth(double width_);
     void SetHeight(double height_);
@@ -54,6 +53,7 @@ private:
     double zoom_coef = 0;
     
     svg::Point TranslateCoordinatesToPoint(transport_catalogue::detail::Coordinates coordinates);
+    void CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates);
 };
 
 }
