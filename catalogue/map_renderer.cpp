@@ -89,4 +89,7 @@ void MapRenderer::SetStopLabelOffset(std::vector<double> stop_label_offset_) {
     settings.stop_label_offset = stop_label_offset_;
 }
 
+void MapRenderer::SetMapSettings(MapSettings settings_) {
+    settings = settings_;
+}
 

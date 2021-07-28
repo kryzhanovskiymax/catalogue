@@ -34,6 +34,7 @@ class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
     
+    void SetMapSettings(MapSettings settings_);
     void SetWidth(double width_);
     void SetHeight(double height_);
     void SetPadding(double padding_);
