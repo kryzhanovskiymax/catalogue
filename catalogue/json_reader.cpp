@@ -95,7 +95,41 @@ void JsonReader::ReadStatRequests(const Node& stat_req) {
 }
 
 void JsonReader::ReadRenderSettings(const json::Node &render_settings) {
+    map_settings.width = render_settings.AsMap().at("width").AsDouble();
+    map_settings.height = render_settings.AsMap().at("height").AsDouble();
+    map_settings.padding = render_settings.AsMap().at("padding").AsDouble();
+    map_settings.stop_radius = render_settings.AsMap().at("stop_radius").AsDouble();
+    map_settings.line_width = render_settings.AsMap().at("line_width").AsDouble();
+    map_settings.bus_label_font_size = render_settings.AsMap().at("bus_label_font_size").AsDouble();
+    map_settings.stop_label_font_size = render_settings.AsMap().at("stop_label_font_size").AsDouble();
+    map_settings.underlayer_width = render_settings.AsMap().at("underlayer_width").AsDouble();
+    map_settings.bus_label_offset.push_back(render_settings.AsMap().at("bus_label_offset").AsArray()[0].AsDouble());
+    map_settings.bus_label_offset.push_back(render_settings.AsMap().at("bus_label_offset").AsArray()[1].AsDouble());
+    map_settings.stop_label_offset.push_back(render_settings.AsMap().at("stop_label_offset").AsArray()[0].AsDouble());
+    map_settings.stop_label_offset.push_back(render_settings.AsMap().at("stop_label_offset").AsArray()[1].AsDouble());
     
+    if(render_settings.AsMap().at("underlayer_color").IsString()) {
+        map_settings.underlayer_color = render_settings.AsMap().at("underlayer_color").AsString();
+    } else if(render_settings.AsMap().at("underlayer_color").IsArray()) {
+        if(render_settings.AsMap().at("underlayer_color").AsArray().size() == 3) {
+            svg::Rgb color;
+            color.red = render_settings.AsMap().at("underlayer_color").AsArray()[0].AsInt();
+            color.green = render_settings.AsMap().at("underlayer_color").AsArray()[1].AsInt();
+            color.blue = render_settings.AsMap().at("underlayer_color").AsArray()[2].AsInt();
+            
+            map_settings.underlayer_color = color;
+        } else if(render_settings.AsMap().at("underlayer_color").AsArray().size() == 4) {
+            svg::Rgba color;
+            color.red = render_settings.AsMap().at("underlayer_color").AsArray()[0].AsInt();
+            color.green = render_settings.AsMap().at("underlayer_color").AsArray()[1].AsInt();
+            color.blue = render_settings.AsMap().at("underlayer_color").AsArray()[2].AsInt();
+            color.opacity = render_settings.AsMap().at("underlayer_color").AsArray()[3].AsInt();
+        } else {
+            std::cout << "array is too big" << std::endl;
+        }
+    } else {
+        std::cout << "Wrong format" << std::endl;
+    }
 }
 
 BusCommand JsonReader::GetBusCommandFromNode(const Node& node) const {
