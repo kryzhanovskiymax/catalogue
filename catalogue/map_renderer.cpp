@@ -65,7 +65,7 @@ void MapRenderer::SetBusLabelFontSize(double bus_label_font_size_) {
     settings.bus_label_font_size = bus_label_font_size_;
 }
 
-void MapRenderer::SetBusLabelOffset(double bus_label_offset_) {
+void MapRenderer::SetBusLabelOffset(std::vector<double> bus_label_offset_) {
     settings.bus_label_offset = bus_label_offset_;
 }
 
@@ -79,6 +79,14 @@ void MapRenderer::SetUnderlayerColor(svg::Color underlayer_color_) {
 
 void MapRenderer::SetColorPalette(std::vector<svg::Color> color_palette_) {
     settings.color_palette = color_palette_;
+}
+
+void MapRenderer::SetStopLabelFontSize(double stop_label_font_size_) {
+    settings.stop_label_font_size = stop_label_font_size_;
+}
+
+void MapRenderer::SetStopLabelOffset(std::vector<double> stop_label_offset_) {
+    settings.stop_label_offset = stop_label_offset_;
 }
 
 

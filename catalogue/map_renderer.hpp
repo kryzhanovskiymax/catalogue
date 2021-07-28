@@ -22,7 +22,9 @@ struct MapSettings {
     double line_width;
     double stop_radius;
     double bus_label_font_size;
-    double bus_label_offset;
+    std::vector<double> bus_label_offset;
+    double stop_label_font_size;
+    std::vector<double> stop_label_offset;
     double underlayer_width;
     svg::Color underlayer_color;
     std::vector<svg::Color> color_palette;
@@ -38,10 +40,12 @@ public:
     void SetLineWidth(double line_width_);
     void SetStopRadius(double stop_radius_);
     void SetBusLabelFontSize(double bus_label_font_size_);
-    void SetBusLabelOffset(double bus_label_offset_);
+    void SetBusLabelOffset(std::vector<double> bus_label_offset_);
     void SetUnderlayerWidth(double underlayer_width_);
     void SetUnderlayerColor(svg::Color underlayer_color_);
     void SetColorPalette(std::vector<svg::Color> color_palette_);
+    void SetStopLabelFontSize(double stop_label_font_size_);
+    void SetStopLabelOffset(std::vector<double> stop_label_offset_);
 private:
     svg::Document map_document;
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;
