@@ -21,6 +21,12 @@ void JsonReader::ReadJson(std::istream& is) {
     } else {
         ReadStatRequests(root.AsMap().at("stat_requests"));
     }
+    
+    if(root.AsMap().count("render_settings") == 0) {
+        std::cout << "There is no field RENDER_SETTINGS in Data Base" << std::endl;
+    } else {
+        ReadRenderSettings(root.AsMap().at("render_settings"));
+    }
 }
 
 void JsonReader::Print(std::ostream& os) const {
@@ -86,6 +92,10 @@ void JsonReader::ReadStatRequests(const Node& stat_req) {
     for(const auto& request : stat_req.AsArray()) {
         requests.push_back(GetRequestFromNode(request));
     }
+}
+
+void JsonReader::ReadRenderSettings(const json::Node &render_settings) {
+    
 }
 
 BusCommand JsonReader::GetBusCommandFromNode(const Node& node) const {

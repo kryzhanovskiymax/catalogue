@@ -80,3 +80,5 @@ void MapRenderer::SetUnderlayerColor(svg::Color underlayer_color_) {
 void MapRenderer::SetColorPalette(std::vector<svg::Color> color_palette_) {
     settings.color_palette = color_palette_;
 }
+
+

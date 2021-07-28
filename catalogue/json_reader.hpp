@@ -21,6 +21,7 @@ public:
 private:
     void ReadBaseRequests(const json::Node& base_req);
     void ReadStatRequests(const json::Node& stat_req);
+    void ReadRenderSettings(const json::Node& render_settings);
     
     detail::BusCommand GetBusCommandFromNode(const json::Node& node) const;
     detail::StopCommand GetStopCommandFromNode(const json::Node& node) const;
@@ -33,6 +34,7 @@ private:
     std::pair<std::vector<transport_catalogue::detail::StopCommand>, std::vector<transport_catalogue::detail::BusCommand>> base_requests;
     std::vector<transport_catalogue::request_handler::detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> response;
+    transport_catalogue::map_renderer::MapSettings map_settings;
 };
 
 }
