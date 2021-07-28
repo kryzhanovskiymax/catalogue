@@ -31,6 +31,8 @@ private:
     void InsertStopResponse(request_handler::detail::StopResponse stop, std::map<std::string, json::Node>& target) const;
     void InsertErrorResponse(request_handler::detail::ErrorResponse error, std::map<std::string, json::Node>& target) const;
     
+    svg::Color GetColorFromNode(const json::Node& color_node);
+    
     std::pair<std::vector<transport_catalogue::detail::StopCommand>, std::vector<transport_catalogue::detail::BusCommand>> base_requests;
     std::vector<transport_catalogue::request_handler::detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> response;

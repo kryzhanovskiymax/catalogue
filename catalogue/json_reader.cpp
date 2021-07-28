@@ -108,27 +108,10 @@ void JsonReader::ReadRenderSettings(const json::Node &render_settings) {
     map_settings.stop_label_offset.push_back(render_settings.AsMap().at("stop_label_offset").AsArray()[0].AsDouble());
     map_settings.stop_label_offset.push_back(render_settings.AsMap().at("stop_label_offset").AsArray()[1].AsDouble());
     
-    if(render_settings.AsMap().at("underlayer_color").IsString()) {
-        map_settings.underlayer_color = render_settings.AsMap().at("underlayer_color").AsString();
-    } else if(render_settings.AsMap().at("underlayer_color").IsArray()) {
-        if(render_settings.AsMap().at("underlayer_color").AsArray().size() == 3) {
-            svg::Rgb color;
-            color.red = render_settings.AsMap().at("underlayer_color").AsArray()[0].AsInt();
-            color.green = render_settings.AsMap().at("underlayer_color").AsArray()[1].AsInt();
-            color.blue = render_settings.AsMap().at("underlayer_color").AsArray()[2].AsInt();
-            
-            map_settings.underlayer_color = color;
-        } else if(render_settings.AsMap().at("underlayer_color").AsArray().size() == 4) {
-            svg::Rgba color;
-            color.red = render_settings.AsMap().at("underlayer_color").AsArray()[0].AsInt();
-            color.green = render_settings.AsMap().at("underlayer_color").AsArray()[1].AsInt();
-            color.blue = render_settings.AsMap().at("underlayer_color").AsArray()[2].AsInt();
-            color.opacity = render_settings.AsMap().at("underlayer_color").AsArray()[3].AsInt();
-        } else {
-            std::cout << "array is too big" << std::endl;
-        }
-    } else {
-        std::cout << "Wrong format" << std::endl;
+    map_settings.underlayer_color = GetColorFromNode(render_settings.AsMap().at("underlayer_color"));
+    
+    for(const Node& color_node : render_settings.AsMap().at("color_palette").AsArray()) {
+        map_settings.color_palette.push_back(GetColorFromNode(color_node));
     }
 }
 
@@ -207,4 +190,35 @@ void JsonReader::InsertErrorResponse(request_handler::detail::ErrorResponse erro
     double id = static_cast<int>(error.request_id)*1.0;
     target.insert({"request_id", Node(id)});
     target.insert({"error_message", Node(std::move(error.error_message))});
+}
+
+svg::Color JsonReader::GetColorFromNode(const json::Node& color_node) {
+    svg::Color color;
+    
+    if(color_node.IsString()) {
+        color = color_node.AsString();
+    } else if(color_node.IsArray()) {
+        if(color_node.AsArray().size() == 3) {
+            svg::Rgb color_;
+            color_.red = color_node.AsArray()[0].AsInt();
+            color_.green = color_node.AsArray()[1].AsInt();
+            color_.blue = color_node.AsArray()[2].AsInt();
+            
+            color = color_;
+        } else if(color_node.AsArray().size() == 4) {
+            svg::Rgba color_;
+            color_.red = color_node.AsArray()[0].AsInt();
+            color_.green = color_node.AsArray()[1].AsInt();
+            color_.blue = color_node.AsArray()[2].AsInt();
+            color_.opacity = color_node.AsArray()[3].AsInt();
+            
+            color = color_;
+        } else {
+            std::cout << "array is too big" << std::endl;
+        }
+    } else {
+        std::cout << "Wrong format" << std::endl;
+    }
+    
+    return color;
 }
