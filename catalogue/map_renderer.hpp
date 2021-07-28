@@ -15,6 +15,19 @@ namespace transport_catalogue {
 
 namespace map_renderer {
 
+struct MapSettings {
+    double width;
+    double height;
+    double padding;
+    double line_width;
+    double stop_radius;
+    double bus_label_font_size;
+    double bus_label_offset;
+    double underlayer_width;
+    svg::Color underlayer_color;
+    std::vector<svg::Color> color_palette;
+};
+
 class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
@@ -34,16 +47,7 @@ private:
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;
     std::map<std::string, svg::Point> stop_to_position;
     
-    double width;
-    double height;
-    double padding;
-    double line_width;
-    double stop_radius;
-    double bus_label_font_size;
-    double bus_label_offset;
-    double underlayer_width;
-    svg::Color underlayer_color;
-    std::vector<svg::Color> color_palette;
+    MapSettings settings;
     
     double min_lat;
     double max_lat;
