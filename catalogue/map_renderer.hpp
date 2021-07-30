@@ -33,6 +33,7 @@ struct MapSettings {
 class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
+    void DrawMap() const;
     
     void SetMapSettings(MapSettings settings_);
     void SetWidth(double width_);

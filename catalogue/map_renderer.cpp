@@ -5,6 +5,21 @@ using namespace transport_catalogue::detail;
 using namespace transport_catalogue::map_renderer;
 
 void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses) {
+    for(const auto& stop : stops) {
+        stop_to_position.insert({stop.name, TranslateCoordinatesToPoint(stop.coordinates)});
+    }
+    
+    for(const auto& bus : buses) {
+        std::vector<std::string> stop_names;
+        for(const auto& stop : bus.stops) {
+            stop_names.push_back(stop->name);
+        }
+        
+        bus_to_stops.insert({bus.name, std::make_pair(bus.is_round_trip, stop_names)});
+    }
+}
+
+void MapRenderer::DrawMap() const {
     
 }
 
