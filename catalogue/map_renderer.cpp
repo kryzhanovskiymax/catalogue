@@ -21,6 +21,32 @@ void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops
 
 void MapRenderer::DrawMap() const {
     
+    //Отрисовка линий маршрутов
+    for(const auto& [bus, detail] : bus_to_stops) {
+        bool is_round_trip = detail.first;
+        std::vector<std::string> stops = detail.second;
+        svg::Polyline route;
+        
+        route.SetStrokeLineCap(svg::StrokeLineCap::ROUND);
+        route.SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
+        route.SetFillColor(svg::NoneColor);
+        route.SetStrokeWidth(settings.line_width);
+        
+        if(is_round_trip) {
+            for(const auto& stop : stops) {
+                route.AddPoint(stop_to_position.at(stop));
+            }
+        } else {
+            for(const auto& stop: stops) {
+                route.AddPoint(stop_to_position.at(stop));
+            }
+            
+            for(unsigned long int i = stops.size() - 2; i >= 0; --i) {
+                route.AddPoint(stop_to_position.at(stops[i]));
+            }
+        }
+    }
+    
 }
 
 void MapRenderer::CalculateCoefficients(std::vector<Coordinates> stops_coordinates) {
@@ -106,5 +132,11 @@ void MapRenderer::SetStopLabelOffset(std::vector<double> stop_label_offset_) {
 
 void MapRenderer::SetMapSettings(MapSettings settings_) {
     settings = settings_;
+}
+
+svg::Color MapRenderer::GetColor() {
+    svg::Color result = settings.color_palette[color_idx/settings.color_palette.size()];
+    ++color_idx;
+    return result;
 }
 

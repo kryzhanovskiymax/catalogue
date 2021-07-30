@@ -64,6 +64,9 @@ private:
     
     svg::Point TranslateCoordinatesToPoint(transport_catalogue::detail::Coordinates coordinates);
     void CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates);
+    svg::Color GetColor();
+    
+    int color_idx = 0;
 };
 
 }
