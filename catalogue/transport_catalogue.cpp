@@ -104,12 +104,11 @@ double TransportCatalogue::GetDistance(Stop* from, Stop* to) const {
     return distances_.at(std::make_pair(from->name, to->name));
 }
 
-size_t TransportCatalogue::GetStopCount() const {
-    return stops.size();
-}
-
-size_t TransportCatalogue::GetBusCount() const {
-    return buses.size();
+void TransportCatalogue::FillMap(transport_catalogue::map_renderer::MapRenderer& map) const {
+    std::vector<Stop> stop_container{stops.begin(), stops.end()};
+    std::vector<Bus> bus_container{buses.begin(), buses.end()};
+    
+    map.CreateMap(stop_container, bus_container);
 }
 
 double TransportCatalogue::GetBusRouteDistance(Bus* bus) const {

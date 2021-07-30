@@ -1,6 +1,7 @@
 #pragma once
 
 #include "domain.hpp"
+#include "map_renderer.hpp"
 
 #include <deque>
 #include <unordered_map>
@@ -16,8 +17,7 @@ public:
     detail::BusInfo GetBus(std::string name) const;
     detail::StopInfo GetStop(std::string name) const;
     double GetDistance(detail::Stop* from, detail::Stop* to) const;
-    size_t GetStopCount() const;
-    size_t GetBusCount() const;
+    void FillMap(transport_catalogue::map_renderer::MapRenderer& map) const;
     
 private:
     std::deque<detail::Bus> buses;

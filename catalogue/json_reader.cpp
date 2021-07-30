@@ -68,6 +68,10 @@ std::vector<Request> JsonReader::GetRequests() {
     return requests;
 }
 
+void JsonReader::SetMapSettings(transport_catalogue::map_renderer::MapRenderer& map) {
+    map.SetMapSettings(map_settings);
+}
+
 void JsonReader::WriteResponse(std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> answer) {
     response = answer;
 }
