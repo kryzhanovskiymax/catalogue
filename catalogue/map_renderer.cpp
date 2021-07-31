@@ -21,6 +21,7 @@ void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops
 
 void MapRenderer::DrawMap() {
     
+    std::map<std::string, svg::Color> bus_route_to_color;
     //Отрисовка линий маршрутов
     for(const auto& [bus, detail] : bus_to_stops) {
         if(detail.second.size() > 0) {
@@ -32,7 +33,10 @@ void MapRenderer::DrawMap() {
             route.SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
             route.SetFillColor(svg::NoneColor);
             route.SetStrokeWidth(settings.line_width);
-            route.SetStrokeColor(GetColor());
+            svg::Color color = GetColor();
+            route.SetStrokeColor(color);
+            bus_route_to_color.insert({bus, color});
+            
             
             if(is_round_trip) {
                 for(const auto& stop : stops) {
@@ -52,6 +56,42 @@ void MapRenderer::DrawMap() {
         }
     }
     
+    //Отрисовка надписей над автобусами
+    for(const auto& [bus, detail] : bus_to_stops) {
+        if(detail.second.size() > 0) {
+            svg::Text name;
+            svg::Text underlayer;
+            
+            svg::Point offset{settings.bus_label_offset[0], settings.bus_label_offset[1]};
+            svg::Point position{stop_to_position.at(detail.second[detail.second.size() - 1])};
+            
+            name.SetPosition(position);
+            name.SetOffset(offset);
+            name.SetFontSize(settings.bus_label_font_size);
+            name.SetFontFamily("Verdana");
+            name.SetFontWeight("bold");
+            name.SetData(bus);
+            
+            name.SetFillColor(bus_route_to_color.at(detail.second[detail.second.size()-1]));
+
+            underlayer.SetPosition(position);
+            underlayer.SetOffset(offset);
+            underlayer.SetFontSize(settings.bus_label_font_size);
+            underlayer.SetFontFamily("Verdana");
+            underlayer.SetFontWeight("bold");
+            underlayer.SetData(bus);
+            
+            underlayer.SetFillColor(settings.underlayer_color);
+            underlayer.SetStrokeColor(settings.underlayer_color);
+            underlayer.SetStrokeWidth(settings.underlayer_width);
+            underlayer.SetStrokeLineCap(svg::StrokeLineCap::ROUND);
+            underlayer.SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
+            
+            map_document.Add(underlayer);
+            map_document.Add(name);
+            
+        }
+    }
 }
 
 void MapRenderer::CalculateCoefficients(std::vector<Coordinates> stops_coordinates) {
