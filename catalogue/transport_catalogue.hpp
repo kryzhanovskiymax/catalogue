@@ -17,6 +17,7 @@ public:
     detail::BusInfo GetBus(std::string name) const;
     detail::StopInfo GetStop(std::string name) const;
     double GetDistance(detail::Stop* from, detail::Stop* to) const;
+    void InitializeMapRenderer(transport_catalogue::map_renderer::MapRenderer& map);
     
 private:
     std::deque<detail::Bus> buses;

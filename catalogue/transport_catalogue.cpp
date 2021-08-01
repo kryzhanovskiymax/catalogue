@@ -104,6 +104,13 @@ double TransportCatalogue::GetDistance(Stop* from, Stop* to) const {
     return distances_.at(std::make_pair(from->name, to->name));
 }
 
+void TransportCatalogue::InitializeMapRenderer(transport_catalogue::map_renderer::MapRenderer& map) {
+    std::vector<Stop> stops_{stops.begin(), stops.end()};
+    std::vector<Bus> buses_{buses.begin(), buses.end()};
+    
+    map.CreateMap(stops_, buses_);
+}
+
 double TransportCatalogue::GetBusRouteDistance(Bus* bus) const {
     double distance = 0;
     for(int i = 1; i < bus->stops.size(); ++i) {
