@@ -20,9 +20,13 @@ void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops
 }
 
 void MapRenderer::DrawMap() {
-    
-    std::map<std::string, svg::Color> bus_route_to_color;
-    //Отрисовка линий маршрутов
+    DrawBusRoutes();
+    DrawBusNames();
+    DrawStopMarks();
+    DrawStopNames();
+}
+
+void MapRenderer::DrawBusRoutes() {
     for(const auto& [bus, detail] : bus_to_stops) {
         if(detail.second.size() > 0) {
             bool is_round_trip = detail.first;
@@ -55,8 +59,9 @@ void MapRenderer::DrawMap() {
             map_document.Add(route);
         }
     }
-    
-    //Отрисовка надписей над автобусами
+}
+
+void MapRenderer::DrawBusNames() {
     for(const auto& [bus, detail] : bus_to_stops) {
         if(detail.second.size() > 0) {
             svg::Text name;
@@ -65,27 +70,13 @@ void MapRenderer::DrawMap() {
             svg::Point offset{settings.bus_label_offset[0], settings.bus_label_offset[1]};
             svg::Point position{stop_to_position.at(detail.second[detail.second.size() - 1])};
             
-            name.SetPosition(position);
-            name.SetOffset(offset);
-            name.SetFontSize(settings.bus_label_font_size);
-            name.SetFontFamily("Verdana");
-            name.SetFontWeight("bold");
-            name.SetData(bus);
+            name.SetPosition(position).SetOffset(offset).SetFontSize(settings.bus_label_font_size).SetFontFamily("Verdana").SetFontWeight("bold").SetData(bus);
             
             name.SetFillColor(bus_route_to_color.at(detail.second[detail.second.size()-1]));
 
-            underlayer.SetPosition(position);
-            underlayer.SetOffset(offset);
-            underlayer.SetFontSize(settings.bus_label_font_size);
-            underlayer.SetFontFamily("Verdana");
-            underlayer.SetFontWeight("bold");
-            underlayer.SetData(bus);
+            underlayer.SetPosition(position).SetOffset(offset).SetFontSize(settings.bus_label_font_size).SetFontFamily("Verdana").SetFontWeight("bold").SetData(bus);
             
-            underlayer.SetFillColor(settings.underlayer_color);
-            underlayer.SetStrokeColor(settings.underlayer_color);
-            underlayer.SetStrokeWidth(settings.underlayer_width);
-            underlayer.SetStrokeLineCap(svg::StrokeLineCap::ROUND);
-            underlayer.SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
+            underlayer.SetFillColor(settings.underlayer_color).SetStrokeColor(settings.underlayer_color).SetStrokeWidth(settings.underlayer_width).SetStrokeLineCap(svg::StrokeLineCap::ROUND).SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
             
             if(detail.first) {
                 svg::Text begin_name;
@@ -103,8 +94,9 @@ void MapRenderer::DrawMap() {
             
         }
     }
-    
-    //Отрисовка значков остановки
+}
+
+void MapRenderer::DrawStopMarks() {
     for(const auto& [stop, position] : stop_to_position) {
         svg::Circle stop_mark;
         stop_mark.SetCenter(position);
@@ -112,8 +104,9 @@ void MapRenderer::DrawMap() {
         stop_mark.SetRadius(settings.stop_radius);
         map_document.Add(stop_mark);
     }
-    
-    //Отрисовка названий остановки
+}
+
+void MapRenderer::DrawStopNames() {
     for(const auto& [stop, position] : stop_to_position) {
         svg::Text stop_name;
         svg::Text underlayer;
