@@ -156,54 +156,6 @@ svg::Point MapRenderer::TranslateCoordinatesToPoint(Coordinates coordinates) {
     return svg::Point{x, y};
 }
 
-void MapRenderer::SetWidth(double width_) {
-    settings.width = width_;
-}
-
-void MapRenderer::SetHeight(double height_) {
-    settings.height = height_;
-}
-
-void MapRenderer::SetPadding(double padding_) {
-    settings.padding = padding_;
-}
-
-void MapRenderer::SetLineWidth(double line_width_) {
-    settings.line_width = line_width_;
-}
-
-void MapRenderer::SetStopRadius(double stop_radius_) {
-    settings.stop_radius = stop_radius_;
-}
-
-void MapRenderer::SetBusLabelFontSize(double bus_label_font_size_) {
-    settings.bus_label_font_size = bus_label_font_size_;
-}
-
-void MapRenderer::SetBusLabelOffset(std::vector<double> bus_label_offset_) {
-    settings.bus_label_offset = bus_label_offset_;
-}
-
-void MapRenderer::SetUnderlayerWidth(double underlayer_width_) {
-    settings.underlayer_width = underlayer_width_;
-}
-
-void MapRenderer::SetUnderlayerColor(svg::Color underlayer_color_) {
-    settings.underlayer_color = underlayer_color_;
-}
-
-void MapRenderer::SetColorPalette(std::vector<svg::Color> color_palette_) {
-    settings.color_palette = color_palette_;
-}
-
-void MapRenderer::SetStopLabelFontSize(double stop_label_font_size_) {
-    settings.stop_label_font_size = stop_label_font_size_;
-}
-
-void MapRenderer::SetStopLabelOffset(std::vector<double> stop_label_offset_) {
-    settings.stop_label_offset = stop_label_offset_;
-}
-
 void MapRenderer::SetMapSettings(MapSettings settings_) {
     settings = settings_;
 }
