@@ -87,10 +87,46 @@ void MapRenderer::DrawMap() {
             underlayer.SetStrokeLineCap(svg::StrokeLineCap::ROUND);
             underlayer.SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
             
-            map_document.Add(underlayer);
-            map_document.Add(name);
+            if(detail.first) {
+                svg::Text begin_name;
+                begin_name.SetPosition(stop_to_position.at(detail.second[0]));
+                begin_name.SetOffset(offset);
+                begin_name.SetFontSize(settings.bus_label_font_size).SetFontWeight("bold").SetFontFamily("Verdana").SetData(bus);
+                begin_name.SetFillColor(bus_route_to_color.at(detail.second[detail.second.size()-1]));
+                map_document.Add(underlayer);
+                map_document.Add(begin_name);
+                map_document.Add(name);
+            } else {
+                map_document.Add(underlayer);
+                map_document.Add(name);
+            }
             
         }
+    }
+    
+    //Отрисовка значков остановки
+    for(const auto& [stop, position] : stop_to_position) {
+        svg::Circle stop_mark;
+        stop_mark.SetCenter(position);
+        stop_mark.SetFillColor("white");
+        stop_mark.SetRadius(settings.stop_radius);
+        map_document.Add(stop_mark);
+    }
+    
+    //Отрисовка названий остановки
+    for(const auto& [stop, position] : stop_to_position) {
+        svg::Text stop_name;
+        svg::Text underlayer;
+        
+        svg::Point offset{settings.stop_label_offset[0], settings.stop_label_offset[1]};
+        stop_name.SetPosition(position).SetOffset(offset).SetFontSize(settings.stop_label_font_size).SetFontFamily("Verdana").SetData(stop);
+        stop_name.SetFillColor("black");
+        
+        underlayer.SetPosition(position).SetOffset(offset).SetFontSize(settings.stop_label_font_size).SetFontFamily("Verdana").SetData(stop);
+        underlayer.SetStrokeColor(settings.underlayer_color).SetFillColor(settings.underlayer_color).SetStrokeWidth(settings.underlayer_width).SetStrokeLineJoin(svg::StrokeLineJoin::ROUND).SetStrokeLineCap(svg::StrokeLineCap::ROUND);
+        
+        map_document.Add(underlayer);
+        map_document.Add(stop_name);
     }
 }
 
