@@ -19,14 +19,14 @@ void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops
     }
 }
 
-void MapRenderer::DrawMap() {
-    DrawBusRoutes();
-    DrawBusNames();
-    DrawStopMarks();
-    DrawStopNames();
+void MapRenderer::DrawMap(svg::Document& map) {
+    DrawBusRoutes(map);
+    DrawBusNames(map);
+    DrawStopMarks(map);
+    DrawStopNames(map);
 }
 
-void MapRenderer::DrawBusRoutes() {
+void MapRenderer::DrawBusRoutes(svg::Document& map) {
     for(const auto& [bus, detail] : bus_to_stops) {
         if(detail.second.size() > 0) {
             bool is_round_trip = detail.first;
@@ -61,7 +61,7 @@ void MapRenderer::DrawBusRoutes() {
     }
 }
 
-void MapRenderer::DrawBusNames() {
+void MapRenderer::DrawBusNames(svg::Document& map) {
     for(const auto& [bus, detail] : bus_to_stops) {
         if(detail.second.size() > 0) {
             svg::Text name;
@@ -96,7 +96,7 @@ void MapRenderer::DrawBusNames() {
     }
 }
 
-void MapRenderer::DrawStopMarks() {
+void MapRenderer::DrawStopMarks(svg::Document& map) {
     for(const auto& [stop, position] : stop_to_position) {
         svg::Circle stop_mark;
         stop_mark.SetCenter(position);
@@ -106,7 +106,7 @@ void MapRenderer::DrawStopMarks() {
     }
 }
 
-void MapRenderer::DrawStopNames() {
+void MapRenderer::DrawStopNames(svg::Document& map) {
     for(const auto& [stop, position] : stop_to_position) {
         svg::Text stop_name;
         svg::Text underlayer;

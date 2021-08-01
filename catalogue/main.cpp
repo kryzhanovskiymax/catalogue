@@ -14,6 +14,7 @@ using namespace transport_catalogue::detail;
 using namespace transport_catalogue::request_handler;
 using namespace transport_catalogue::json_reader;
 using namespace transport_catalogue::request_handler::detail;
+using namespace transport_catalogue::map_renderer;
 
 
 
@@ -21,24 +22,42 @@ void RunSystem(std::istream& is, std::ostream& os) {
     JsonReader jr;
     TransportCatalogue tc;
     RequestHandler rh;
+    MapRenderer mr;
+    
     jr.ReadJson(is);
     jr.InitializeTransportCatalogue(tc);
     rh.InitializeRequestHandler(jr.GetRequests());
     rh.HandleRequests(tc);
     jr.WriteResponse(rh.GetResponses());
     jr.Print(os);
+    jr.SetMapSettings(mr);
+    tc.InitializeMapRenderer(mr);
 }
 
 int main() {
+    
+    std::ifstream is;
+    is.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/random_data.json");
+    
     std::ifstream ifs;
-    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test5.json");
+    ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city_data_base.json");
+    
+    std::ofstream os;
+    os.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/response.json");
+    
     std::ofstream ofs;
-    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/test5_response.json");
+    ofs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.svg");
     
-    std::cout << "System is running" << std::endl;
-    RunSystem(ifs, ofs);
-    std::cout << "System run is finished" << std::endl;
+    JsonReader jr;
+    TransportCatalogue tc;
+    RequestHandler rh;
+    MapRenderer mr;
     
-
+    jr.ReadJson(is);
+    jr.InitializeTransportCatalogue(tc);
+    rh.InitializeRequestHandler(jr.GetRequests());
+    rh.HandleRequests(tc);
+    
+    //tc.InitializeMapRenderer(mr);
     return 0;
 }

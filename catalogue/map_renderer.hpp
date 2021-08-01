@@ -41,8 +41,7 @@ struct MapCoefficients {
 class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
-    void DrawMap();
-    
+    void DrawMap(svg::Document& map);
     void SetMapSettings(MapSettings settings_);
 private:
     svg::Document map_document;
@@ -55,10 +54,10 @@ private:
     svg::Point TranslateCoordinatesToPoint(transport_catalogue::detail::Coordinates coordinates);
     void CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates);
     svg::Color GetColor();
-    void DrawBusRoutes();
-    void DrawBusNames();
-    void DrawStopMarks();
-    void DrawStopNames();
+    void DrawBusRoutes(svg::Document& map);
+    void DrawBusNames(svg::Document& map);
+    void DrawStopMarks(svg::Document& map);
+    void DrawStopNames(svg::Document& map);
     
     int color_idx = 0;
 };

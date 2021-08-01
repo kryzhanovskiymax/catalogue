@@ -204,6 +204,7 @@ svg::Color JsonReader::GetColorFromNode(const json::Node& color_node) {
     } else if(color_node.IsArray()) {
         if(color_node.AsArray().size() == 3) {
             svg::Rgb color_;
+
             color_.red = color_node.AsArray()[0].AsInt();
             color_.green = color_node.AsArray()[1].AsInt();
             color_.blue = color_node.AsArray()[2].AsInt();
@@ -214,7 +215,7 @@ svg::Color JsonReader::GetColorFromNode(const json::Node& color_node) {
             color_.red = color_node.AsArray()[0].AsInt();
             color_.green = color_node.AsArray()[1].AsInt();
             color_.blue = color_node.AsArray()[2].AsInt();
-            color_.opacity = color_node.AsArray()[3].AsInt();
+            color_.opacity = color_node.AsArray()[3].AsDouble();
             
             color = color_;
         } else {
