@@ -31,11 +31,11 @@ struct MapSettings {
 };
 
 struct MapCoefficients {
-    double min_lat;
-    double max_lat;
-    double min_lng;
-    double max_lng;
-    double zoom_coef;
+    double min_lat = 0;
+    double max_lat = 0;
+    double min_lng = 0;
+    double max_lng = 0;
+    double zoom_coef = 0;
 };
 
 class MapRenderer {
@@ -52,17 +52,9 @@ private:
     MapSettings settings;
     MapCoefficients coefficients;
     
-    double min_lat;
-    double max_lat;
-    double min_lng;
-    double max_lng;
-    
-    double zoom_coef = 0;
-    
     svg::Point TranslateCoordinatesToPoint(transport_catalogue::detail::Coordinates coordinates);
     void CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates);
     svg::Color GetColor();
-    
     void DrawBusRoutes();
     void DrawBusNames();
     void DrawStopMarks();
