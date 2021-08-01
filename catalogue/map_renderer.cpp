@@ -132,26 +132,26 @@ void MapRenderer::CalculateCoefficients(std::vector<Coordinates> stops_coordinat
         latitudes.push_back(coordinates.lat);
     }
     
-    min_lat = *std::min(latitudes.begin(), latitudes.end());
-    max_lat = *std::max(longitudes.begin(), longitudes.end());
-    min_lng = *std::min(longitudes.begin(), longitudes.end());
-    max_lng = *std::max(longitudes.begin(), longitudes.end());
+    coefficients.min_lat = *std::min(latitudes.begin(), latitudes.end());
+    coefficients.max_lat = *std::max(longitudes.begin(), longitudes.end());
+    coefficients.min_lng = *std::min(longitudes.begin(), longitudes.end());
+    coefficients.max_lng = *std::max(longitudes.begin(), longitudes.end());
     
-    double height_zoom_coef = (settings.height - 2*settings.padding)/(max_lat - min_lat);
-    double width_zoom_coef = (settings.width - 2*settings.padding)/(max_lng-min_lng);
+    double height_zoom_coef = (settings.height - 2*settings.padding)/(coefficients.max_lat - coefficients.min_lat);
+    double width_zoom_coef = (settings.width - 2*settings.padding)/(coefficients.max_lng - coefficients.min_lng);
     
     if(height_zoom_coef == 0) {
-        zoom_coef = width_zoom_coef;
+        coefficients.zoom_coef = width_zoom_coef;
     } else if(width_zoom_coef == 0) {
-        zoom_coef = height_zoom_coef;
+        coefficients.zoom_coef = height_zoom_coef;
     } else {
-        zoom_coef = std::min(height_zoom_coef, width_zoom_coef);
+        coefficients.zoom_coef = std::min(height_zoom_coef, width_zoom_coef);
     }
 }
 
 svg::Point MapRenderer::TranslateCoordinatesToPoint(Coordinates coordinates) {
-    double x = (coordinates.lng - min_lng)*zoom_coef + settings.padding;
-    double y = (max_lat - coordinates.lat)*zoom_coef + settings.padding;
+    double x = (coordinates.lng - coefficients.min_lng)*coefficients.zoom_coef + settings.padding;
+    double y = (coefficients.max_lat - coordinates.lat)*coefficients.zoom_coef + settings.padding;
     
     return svg::Point{x, y};
 }

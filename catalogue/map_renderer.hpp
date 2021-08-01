@@ -30,6 +30,14 @@ struct MapSettings {
     std::vector<svg::Color> color_palette;
 };
 
+struct MapCoefficients {
+    double min_lat;
+    double max_lat;
+    double min_lng;
+    double max_lng;
+    double zoom_coef;
+};
+
 class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
@@ -41,8 +49,8 @@ private:
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;
     std::map<std::string, svg::Point> stop_to_position;
     std::map<std::string, svg::Color> bus_route_to_color;
-    
     MapSettings settings;
+    MapCoefficients coefficients;
     
     double min_lat;
     double max_lat;
