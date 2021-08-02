@@ -6,6 +6,7 @@
 #include "request_handler.hpp"
 #include "map_renderer.hpp"
 #include "svg_package.hpp"
+#include "log_duration.hpp"
 
 using namespace std;
 using namespace json;
@@ -57,14 +58,20 @@ int main() {
     jr.InitializeTransportCatalogue(tc);
     rh.InitializeRequestHandler(jr.GetRequests());
     rh.HandleRequests(tc);
+    jr.WriteResponse(rh.GetResponses());
+    jr.Print(os);
     
-    jr.SetMapSettings(mr);
-    tc.InitializeMapRenderer(mr);
-    svg::Document map;
-    mr.DrawMap(map);
+    
     
     std::cout << "System Run started" << std::endl;
-    map.Render(ofs);
+    {
+        LogDuration dur("MapRenderer Test", std::cout);
+        jr.SetMapSettings(mr);
+        tc.InitializeMapRenderer(mr);
+        svg::Document map;
+        mr.DrawMap(map);
+        map.Render(ofs);
+    }
     std::cout << "System Run finished" << std::endl;
     //tc.InitializeMapRenderer(mr);
     return 0;

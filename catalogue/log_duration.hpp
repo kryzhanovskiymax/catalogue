@@ -26,7 +26,7 @@ public:
 
         const auto end_time = Clock::now();
         const auto dur = end_time - start_time_;
-        dst_stream_ << id_ << ": "s << duration_cast<nanoseconds>(dur).count() << " ns"s << std::endl;
+        dst_stream_ << id_ << ": "s << duration_cast<milliseconds>(dur).count() << " ms"s << std::endl;
     }
 
 private:
