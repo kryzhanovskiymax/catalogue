@@ -83,6 +83,13 @@ void MapRenderer::DrawBusRoutes(svg::Document& map) {
                 }
             }
             
+            if(is_round_trip == false) {
+                std::reverse(stops.begin(), stops.end());
+                for(int i = 1; i < stops.size(); ++i) {
+                    route.AddPoint(stop_to_position.at(stops[i]));
+                }
+            }
+            
             map.Add(route);
         }
     }
