@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <algorithm>
+#include <iostream>
 
 #include "domain.hpp"
 #include "geo.h"
@@ -43,6 +44,12 @@ public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
     void DrawMap(svg::Document& map);
     void SetMapSettings(MapSettings settings_);
+    void Render(std::ostream& os) const;
+    
+    //Вспомогательные методы
+    MapSettings GetMapSettings() const;
+    void ShowContainers() const;
+    void ShowCoefficients() const;
 private:
     svg::Document map_document;
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;

@@ -58,6 +58,14 @@ int main() {
     rh.InitializeRequestHandler(jr.GetRequests());
     rh.HandleRequests(tc);
     
+    jr.SetMapSettings(mr);
+    tc.InitializeMapRenderer(mr);
+    svg::Document map;
+    mr.DrawMap(map);
+    
+    std::cout << "System Run started" << std::endl;
+    map.Render(ofs);
+    std::cout << "System Run finished" << std::endl;
     //tc.InitializeMapRenderer(mr);
     return 0;
 }
