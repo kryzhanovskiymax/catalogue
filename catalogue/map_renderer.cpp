@@ -77,21 +77,10 @@ void MapRenderer::DrawBusRoutes(svg::Document& map) {
             route.SetStrokeColor(color);
             bus_route_to_color.insert({bus, color});
             
-            
-            if(is_round_trip) {
-                for(const auto& stop : stops) {
-                    if(stop_to_position.count(stop) > 0) {
-                        route.AddPoint(stop_to_position.at(stop));
-                    }
+            for(const auto& stop : stops) {
+                if(stop_to_position.count(stop) > 0) {
+                    route.AddPoint(stop_to_position.at(stop));
                 }
-            } else {
-                for(const auto& stop : stops) {
-                    if(stop_to_position.count(stop) > 0) {
-                        route.AddPoint(stop_to_position.at(stop));
-                    }
-                }
-                
-                
             }
             
             map.Add(route);
@@ -119,25 +108,11 @@ void MapRenderer::DrawBusNames(svg::Document& map) {
             
             underlayer.SetFillColor(settings.underlayer_color).SetStrokeColor(settings.underlayer_color).SetStrokeWidth(settings.underlayer_width).SetStrokeLineCap(svg::StrokeLineCap::ROUND).SetStrokeLineJoin(svg::StrokeLineJoin::ROUND);
             
-            if(detail.first) {
-                svg::Text begin_name;
-
-                if(stop_to_position.count(detail.second[0])) {
-                    begin_name.SetPosition(stop_to_position.at(detail.second[0]));
-                }
-                
-                begin_name.SetOffset(offset);
-                begin_name.SetFontSize(settings.bus_label_font_size).SetFontWeight("bold").SetFontFamily("Verdana").SetData(bus);
-                
-                if(bus_route_to_color.count(detail.second[detail.second.size()-1])) {
-                    begin_name.SetFillColor(bus_route_to_color.at(detail.second[detail.second.size()-1]));
-                }
-                
-                map.Add(underlayer);
-                map.Add(begin_name);
-                map.Add(name);
-            } else {
-                map.Add(underlayer);
+            map.Add(underlayer);
+            map.Add(name);
+            
+            if(!detail.first) {
+                name.SetPosition(stop_to_position.at(detail.second[0]));
                 map.Add(name);
             }
             
