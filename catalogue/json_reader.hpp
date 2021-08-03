@@ -16,7 +16,7 @@ public:
     void InitializeTransportCatalogue(TransportCatalogue& transport_catalogue);
     std::vector<transport_catalogue::request_handler::detail::Request> GetRequests();
     void WriteResponse(std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> answer);
-    void SetMapSettings(transport_catalogue::map_renderer::MapRenderer& map);
+    void SetMapSettings(map_renderer::MapRenderer& map);
     
 private:
     void ReadBaseRequests(const json::Node& base_req);
@@ -36,7 +36,7 @@ private:
     std::pair<std::vector<transport_catalogue::detail::StopCommand>, std::vector<transport_catalogue::detail::BusCommand>> base_requests;
     std::vector<transport_catalogue::request_handler::detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> response;
-    transport_catalogue::map_renderer::MapSettings map_settings;
+    transport_catalogue::map_renderer::detail::MapSettings map_settings;
 };
 
 }

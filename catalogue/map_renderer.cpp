@@ -3,6 +3,7 @@
 using namespace transport_catalogue;
 using namespace transport_catalogue::detail;
 using namespace transport_catalogue::map_renderer;
+using namespace transport_catalogue::map_renderer::detail;
 
 void MapRenderer::CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses) {
     std::vector<Coordinates> stops_coordinates_;

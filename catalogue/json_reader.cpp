@@ -6,6 +6,7 @@ using namespace transport_catalogue::detail;
 using namespace transport_catalogue::request_handler;
 using namespace transport_catalogue::request_handler::detail;
 
+
 void JsonReader::ReadJson(std::istream& is) {
     Document doc = Load(is);
     Node root = doc.GetRoot();
@@ -68,7 +69,7 @@ std::vector<Request> JsonReader::GetRequests() {
     return requests;
 }
 
-void JsonReader::SetMapSettings(transport_catalogue::map_renderer::MapRenderer& map) {
+void JsonReader::SetMapSettings(map_renderer::MapRenderer& map) {
     map.SetMapSettings(map_settings);
 }
 

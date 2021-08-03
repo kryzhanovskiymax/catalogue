@@ -16,6 +16,8 @@ namespace transport_catalogue {
 
 namespace map_renderer {
 
+namespace detail {
+
 struct MapSettings {
     double width;
     double height;
@@ -39,15 +41,17 @@ struct MapCoefficients {
     double zoom_coef = 0;
 };
 
+}
+
 class MapRenderer {
 public:
     void CreateMap(std::vector<transport_catalogue::detail::Stop> stops, std::vector<transport_catalogue::detail::Bus> buses);
     void DrawMap(svg::Document& map);
-    void SetMapSettings(MapSettings settings_);
+    void SetMapSettings(detail::MapSettings settings_);
     void Render(std::ostream& os) const;
     
     //Вспомогательные методы
-    MapSettings GetMapSettings() const;
+    detail::MapSettings GetMapSettings() const;
     void ShowContainers() const;
     void ShowCoefficients() const;
 private:
@@ -55,8 +59,8 @@ private:
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;
     std::map<std::string, svg::Point> stop_to_position;
     std::map<std::string, svg::Color> bus_route_to_color;
-    MapSettings settings;
-    MapCoefficients coefficients;
+    detail::MapSettings settings;
+    detail::MapCoefficients coefficients;
     
     svg::Point TranslateCoordinatesToPoint(transport_catalogue::detail::Coordinates coordinates);
     void CalculateCoefficients(std::vector<transport_catalogue::detail::Coordinates> stops_coordinates);
