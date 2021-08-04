@@ -37,6 +37,11 @@ struct ErrorResponse {
     std::string error_message;
 };
 
+struct MapResponse {
+    size_t request_id;
+    svg::Document map;
+};
+
 struct Request {
     size_t id;
     QueryType type;
@@ -51,13 +56,13 @@ class RequestHandler {
 public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> GetResponses();
+    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse, detail::MapResponse>> GetResponses();
     size_t GetRequestCount() const;
 
 private:
     
     std::vector<detail::Request> requests;
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
+    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse, detail::MapResponse>> responses;
     
 };
 

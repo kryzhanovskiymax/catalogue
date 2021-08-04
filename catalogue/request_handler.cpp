@@ -12,7 +12,7 @@ void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>
 void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_) {
     
     for(const auto& request : requests) {
-        std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse> response_;
+        std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse, MapResponse> response_;
         if(request.type == QueryType::BusQuery) {
             BusInfo bus = transport_catalogue_.GetBus(request.name);
             if(!bus.exists) {
@@ -44,7 +44,7 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
     
 }
 
-std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> RequestHandler::GetResponses() {
+std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse, MapResponse>> RequestHandler::GetResponses() {
     return responses;
 }
 

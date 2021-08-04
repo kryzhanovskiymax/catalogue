@@ -55,7 +55,6 @@ public:
     void ShowContainers() const;
     void ShowCoefficients() const;
 private:
-    svg::Document map_document;
     std::map<std::string, std::pair<bool, std::vector<std::string>>> bus_to_stops;
     std::map<std::string, svg::Point> stop_to_position;
     std::map<std::string, svg::Color> bus_route_to_color;
