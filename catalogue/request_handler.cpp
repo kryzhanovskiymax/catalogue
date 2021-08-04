@@ -7,12 +7,17 @@ using namespace transport_catalogue::request_handler::detail;
 
 void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>& requests_) {
     requests = requests_;
+    
 }
 
-void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_) {
+void RequestHandler::InitializeMapHandler(std::unique_ptr<transport_catalogue::map_renderer::MapRenderer>&& map_) {
+    map_render = std::move(map_);
+}
+
+void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue &transport_catalogue_) {
     
     for(const auto& request : requests) {
-        std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse, MapResponse> response_;
+        std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse> response_;
         if(request.type == QueryType::BusQuery) {
             BusInfo bus = transport_catalogue_.GetBus(request.name);
             if(!bus.exists) {
@@ -25,7 +30,7 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 response_ = std::move(bus_response);
             }
             
-        } else if(request.type == QueryType::StopQuery){
+        } else {
             StopInfo stop = transport_catalogue_.GetStop(request.name);
             
             if(!stop.exists) {
@@ -37,8 +42,6 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 StopResponse stop_response{request.id, std::move(stop.buses), stop.exists};
                 response_ = std::move(stop_response);
             }
-        } else {
-            
         }
         
         responses.push_back(std::move(response_));
@@ -46,13 +49,10 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
     
 }
 
-std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse, MapResponse>> RequestHandler::GetResponses() {
+std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> RequestHandler::GetResponses() {
     return responses;
 }
 
-size_t RequestHandler::GetRequestCount() const {
-    return requests.size();
-}
 
 
 

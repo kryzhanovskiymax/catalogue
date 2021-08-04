@@ -5,7 +5,7 @@
 #include <vector>
 #include <variant>
 #include <string>
-#include <unique>
+#include <memory>
 
 namespace transport_catalogue {
 
@@ -15,8 +15,7 @@ namespace detail {
 
 enum class QueryType {
     StopQuery,
-    BusQuery,
-    MapQuery
+    BusQuery
 };
 
 struct BusResponse {
@@ -39,11 +38,6 @@ struct ErrorResponse {
     std::string error_message;
 };
 
-struct MapResponse {
-    size_t request_id;
-    svg::Document map;
-};
-
 struct Request {
     size_t id;
     QueryType type;
@@ -58,18 +52,18 @@ class RequestHandler {
 public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse, detail::MapResponse>> GetResponses();
-    size_t GetRequestCount() const;
+    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> GetResponses();
+    void InitializeMapHandler(std::unique_ptr<transport_catalogue::map_renderer::MapRenderer>&& map_);
 
 private:
-    std::unique_ptr<transport_catalogue::map_renderer::MapRenderer> map;
     std::vector<detail::Request> requests;
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse, detail::MapResponse>> responses;
-    
+    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
+    std::unique_ptr<transport_catalogue::map_renderer::MapRenderer> map_render;
 };
 
 
 }
 
 }
+
 
