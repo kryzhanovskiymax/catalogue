@@ -5,6 +5,7 @@
 #include <vector>
 #include <variant>
 #include <string>
+#include <unique>
 
 namespace transport_catalogue {
 
@@ -14,7 +15,8 @@ namespace detail {
 
 enum class QueryType {
     StopQuery,
-    BusQuery
+    BusQuery,
+    MapQuery
 };
 
 struct BusResponse {
@@ -60,7 +62,7 @@ public:
     size_t GetRequestCount() const;
 
 private:
-    
+    std::unique_ptr<transport_catalogue::map_renderer::MapRenderer> map;
     std::vector<detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse, detail::MapResponse>> responses;
     

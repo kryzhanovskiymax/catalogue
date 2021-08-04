@@ -25,7 +25,7 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 response_ = std::move(bus_response);
             }
             
-        } else {
+        } else if(request.type == QueryType::StopQuery){
             StopInfo stop = transport_catalogue_.GetStop(request.name);
             
             if(!stop.exists) {
@@ -37,6 +37,8 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 StopResponse stop_response{request.id, std::move(stop.buses), stop.exists};
                 response_ = std::move(stop_response);
             }
+        } else {
+            
         }
         
         responses.push_back(std::move(response_));
