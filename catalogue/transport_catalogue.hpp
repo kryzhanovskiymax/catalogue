@@ -28,6 +28,7 @@ private:
     
     double GetBusRouteDistance(detail::Bus* bus) const;
     double GetBusRouteLength(detail::Bus* bus) const;
+    std::set<std::string> FindStopBuses(std::string name) const;
 };
 
 }

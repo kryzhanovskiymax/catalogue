@@ -38,7 +38,7 @@ void RunSystem(std::istream& is, std::ostream& os) {
 int main() {
     
     std::ifstream is;
-    is.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/random_data.json");
+    is.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json");
     
     std::ifstream ifs;
     ifs.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city_data_base.json");

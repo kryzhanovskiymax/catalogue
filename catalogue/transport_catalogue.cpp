@@ -82,18 +82,7 @@ StopInfo TransportCatalogue::GetStop(std::string name) const {
         return StopInfo{name, {}, false};
     }
     
-    for(const auto& bus : buses) {
-        for(auto stop : bus.stops) {
-            if(name == stop->name) {
-                std::string copy(bus.name);
-                buses_.insert(std::move(copy));
-                break;
-            }
-        }
-    }
-
-    
-    return StopInfo{name, buses_, true};
+    return StopInfo{name, FindStopBuses(name), true};
 }
 
 double TransportCatalogue::GetDistance(Stop* from, Stop* to) const {
@@ -105,7 +94,13 @@ double TransportCatalogue::GetDistance(Stop* from, Stop* to) const {
 }
 
 void TransportCatalogue::InitializeMapRenderer(transport_catalogue::map_renderer::MapRenderer& map) {
-    std::vector<Stop> stops_{stops.begin(), stops.end()};
+    std::vector<Stop> stops_;
+    for(const auto& stop : stops) {
+        if(FindStopBuses(stop.name).size() > 0) {
+            stops_.push_back(stop);
+        }
+    }
+    
     std::vector<Bus> buses_{buses.begin(), buses.end()};
     
     map.CreateMap(stops_, buses_);
@@ -144,5 +139,21 @@ double TransportCatalogue::GetBusRouteLength(Bus* bus) const {
         }
     }
     return length;
+}
+
+std::set<std::string> TransportCatalogue::FindStopBuses(std::string name) const {
+    std::set<std::string> buses_;
+    
+    for(const auto& bus : buses) {
+        for(auto stop : bus.stops) {
+            if(name == stop->name) {
+                std::string copy(bus.name);
+                buses_.insert(std::move(copy));
+                break;
+            }
+        }
+    }
+    
+    return buses_;
 }
 

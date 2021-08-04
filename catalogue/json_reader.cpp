@@ -155,12 +155,16 @@ Request JsonReader::GetRequestFromNode(const Node& node) const {
     Request req;
 
     req.id = node.AsMap().at("id").AsInt();
-    req.name = std::move(node.AsMap().at("name").AsString());
+    if(node.AsMap().count("name") > 0) {
+        req.name = std::move(node.AsMap().at("name").AsString());
+    }
     
     if(node.AsMap().at("type").AsString() == "Bus") {
         req.type = QueryType::BusQuery;
     } else if(node.AsMap().at("type").AsString() == "Stop") {
         req.type = QueryType::StopQuery;
+    } else if(node.AsMap().at("type").AsString() == "Map") {
+        req.type = QueryType::MapQuery;
     } else {
         throw std::invalid_argument("Wrong element TYPE");
     }
