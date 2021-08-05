@@ -60,7 +60,6 @@ private:
     std::vector<detail::Request> requests;
     std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
     std::unique_ptr<transport_catalogue::map_renderer::MapRenderer> map_render;
-    //std::unique_ptr<transport_catalogue::TransportCatalogue> catalogue;
 };
 
 

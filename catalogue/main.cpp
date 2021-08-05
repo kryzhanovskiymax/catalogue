@@ -37,6 +37,11 @@ void RunSystem(std::istream& is, std::ostream& os) {
 
 int main() {
     
+    
+    //tc.InitializeMapRenderer(mr);
+    LogDuration dur("MapRenderer Test", std::cout);
+    clock_t start = clock();
+    
     std::ifstream is;
     is.open("/Users/makskryzhanovskiy/Desktop/Projects/do IT/Tests/city.json");
     
@@ -65,7 +70,6 @@ int main() {
     
     std::cout << "System Run started" << std::endl;
     {
-        LogDuration dur("MapRenderer Test", std::cout);
         jr.SetMapSettings(mr);
         tc.InitializeMapRenderer(mr);
         svg::Document map;
@@ -73,6 +77,9 @@ int main() {
         map.Render(ofs);
     }
     std::cout << "System Run finished" << std::endl;
-    //tc.InitializeMapRenderer(mr);
+    
+    clock_t end = clock();
+    double seconds = (double)(end - start) / CLOCKS_PER_SEC;
+    printf("The time: %f seconds\n", seconds);
     return 0;
 }

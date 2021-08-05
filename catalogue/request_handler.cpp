@@ -43,7 +43,9 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 response_ = std::move(stop_response);
             }
         } else {
-            //Обработка запросы Map
+            svg::Document map;
+            map_render->DrawMap(map);
+            
         }
         
         responses.push_back(std::move(response_));
