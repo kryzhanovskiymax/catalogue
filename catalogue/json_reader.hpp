@@ -30,6 +30,7 @@ private:
     void InsertBusResponse(request_handler::detail::BusResponse bus, std::map<std::string, json::Node>& target) const;
     void InsertStopResponse(request_handler::detail::StopResponse stop, std::map<std::string, json::Node>& target) const;
     void InsertErrorResponse(request_handler::detail::ErrorResponse error, std::map<std::string, json::Node>& target) const;
+    void InsertMapResponse(request_handler::detail::MapResponse map, std::map<std::string, json::Node>& target) const;
     
     svg::Color GetColorFromNode(const json::Node& color_node);
     

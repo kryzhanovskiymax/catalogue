@@ -72,6 +72,7 @@ int main() {
     {
         jr.SetMapSettings(mr);
         tc.InitializeMapRenderer(mr);
+        rh.InitializeMapHandler(mr);
         svg::Document map;
         mr.DrawMap(map);
         map.Render(ofs);

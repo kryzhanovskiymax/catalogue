@@ -4,13 +4,14 @@ using namespace transport_catalogue;
 using namespace transport_catalogue::request_handler;
 using namespace transport_catalogue::detail;
 using namespace transport_catalogue::request_handler::detail;
+using namespace transport_catalogue::map_renderer;
 
 void RequestHandler::InitializeRequestHandler(const std::vector<detail::Request>& requests_) {
     requests = requests_;
     
 }
 
-void RequestHandler::InitializeMapHandler(std::unique_ptr<transport_catalogue::map_renderer::MapRenderer>&& map_) {
+void RequestHandler::InitializeMapHandler(MapRenderer map_) {
     map_render = std::move(map_);
 }
 
@@ -44,7 +45,7 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
             }
         } else if(request.type == QueryType::MapQuery) {
             svg::Document map;
-            map_render->DrawMap(map);
+            map_render.DrawMap(map);
             std::stringstream map_str;
             map.Render(map_str);
             MapResponse map_response{request.id, map_str.str()};

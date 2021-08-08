@@ -37,14 +37,13 @@ void JsonReader::Print(std::ostream& os) const {
         std::map<std::string, Node> dict;
         
         if(std::holds_alternative<BusResponse>(element)) {
-            InsertBusResponse(std::get<BusResponse>(element), dict);
-            
+            InsertBusResponse(std::get<BusResponse>(element), dict);            
         } else if(std::holds_alternative<StopResponse>(element)) {
             InsertStopResponse(std::get<StopResponse>(element), dict);
-            
         } else if(std::holds_alternative<ErrorResponse>(element)) {
             InsertErrorResponse(std::get<ErrorResponse>(element), dict);
-            
+        } else if(std::holds_alternative<MapResponse>(element)) {
+            InsertMapResponse(std::get<MapResponse>(element), dict);
         }
         
         array.push_back(Node(dict));
@@ -199,6 +198,12 @@ void JsonReader::InsertErrorResponse(request_handler::detail::ErrorResponse erro
     double id = static_cast<int>(error.request_id)*1.0;
     target.insert({"request_id", Node(id)});
     target.insert({"error_message", Node(std::move(error.error_message))});
+}
+
+void JsonReader::InsertMapResponse(request_handler::detail::MapResponse map, std::map<std::string, json::Node>& target) const {
+    double id = static_cast<int>(map.request_id)*1.0;
+    target.insert({"request_id", Node(id)});
+    target.insert({"map", Node(std::move(map.map))});
 }
 
 svg::Color JsonReader::GetColorFromNode(const json::Node& color_node) {

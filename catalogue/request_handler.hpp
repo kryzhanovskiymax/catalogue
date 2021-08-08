@@ -61,12 +61,12 @@ public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
     std::vector<Response> GetResponses();
-    void InitializeMapHandler(std::unique_ptr<transport_catalogue::map_renderer::MapRenderer>&& map_);
+    void InitializeMapHandler(transport_catalogue::map_renderer::MapRenderer map_);
 
 private:
     std::vector<detail::Request> requests;
     std::vector<Response> responses;
-    std::unique_ptr<transport_catalogue::map_renderer::MapRenderer> map_render;
+    transport_catalogue::map_renderer::MapRenderer map_render;
 };
 
 
