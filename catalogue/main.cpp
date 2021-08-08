@@ -19,20 +19,27 @@ using namespace transport_catalogue::map_renderer;
 
 
 
-void RunSystem(std::istream& is, std::ostream& os) {
-    JsonReader jr;
-    TransportCatalogue tc;
-    RequestHandler rh;
-    MapRenderer mr;
+void RunSystem(std::istream& is, std::ostream& out_base, std::ostream& out_map) {
+    JsonReader json_reader;
+    TransportCatalogue transport_catalogue;
+    RequestHandler request_handler;
+    MapRenderer map_renderer;
     
-    jr.ReadJson(is);
-    jr.InitializeTransportCatalogue(tc);
-    rh.InitializeRequestHandler(jr.GetRequests());
-    rh.HandleRequests(tc);
-    jr.WriteResponse(rh.GetResponses());
-    jr.Print(os);
-    jr.SetMapSettings(mr);
-    tc.InitializeMapRenderer(mr);
+    //Data Base Procession
+    json_reader.ReadJson(is);
+    json_reader.InitializeTransportCatalogue(transport_catalogue);
+    request_handler.InitializeRequestHandler(json_reader.GetRequests());
+    request_handler.HandleRequests(transport_catalogue);
+    json_reader.WriteResponse(request_handler.GetResponses());
+    json_reader.Print(out_base);
+    
+    //Map Procession
+    json_reader.SetMapSettings(map_renderer);
+    transport_catalogue.InitializeMapRenderer(map_renderer);
+    request_handler.InitializeMapHandler(map_renderer);
+    svg::Document map;
+    map_renderer.DrawMap(map);
+    map.Render(out_map);
 }
 
 int main() {
@@ -70,12 +77,7 @@ int main() {
     
     std::cout << "System Run started" << std::endl;
     {
-        jr.SetMapSettings(mr);
-        tc.InitializeMapRenderer(mr);
-        rh.InitializeMapHandler(mr);
-        svg::Document map;
-        mr.DrawMap(map);
-        map.Render(ofs);
+        RunSystem(is, os, ofs);
     }
     std::cout << "System Run finished" << std::endl;
     
