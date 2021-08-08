@@ -42,13 +42,13 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
                 StopResponse stop_response{request.id, std::move(stop.buses), stop.exists};
                 response_ = std::move(stop_response);
             }
-        } else {
+        } else if(request.type == QueryType::MapQuery) {
             svg::Document map;
             map_render->DrawMap(map);
             std::stringstream map_str;
             map.Render(map_str);
-            
-            
+            MapResponse map_response{request.id, map_str.str()};
+            response_ = std::move(map_response);
         }
         
         responses.push_back(std::move(response_));

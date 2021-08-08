@@ -40,6 +40,11 @@ struct ErrorResponse {
     std::string error_message;
 };
 
+struct MapResponse {
+    size_t request_id;
+    std::string map;
+};
+
 struct Request {
     size_t id;
     QueryType type;
@@ -48,7 +53,7 @@ struct Request {
 
 }
 
-using Response = std::variant<std::nullptr_t, detail::BusResponse, detail::StopResponse, detail::ErrorResponse>;
+using Response = std::variant<std::nullptr_t, detail::BusResponse, detail::StopResponse, detail::ErrorResponse, detail::MapResponse>;
 
 
 class RequestHandler {
