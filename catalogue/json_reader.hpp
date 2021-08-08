@@ -15,7 +15,7 @@ public:
     void Print(std::ostream& os) const;
     void InitializeTransportCatalogue(TransportCatalogue& transport_catalogue);
     std::vector<transport_catalogue::request_handler::detail::Request> GetRequests();
-    void WriteResponse(std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> answer);
+    void WriteResponse(std::vector<transport_catalogue::request_handler::Response> answer);
     void SetMapSettings(map_renderer::MapRenderer& map);
     
 private:
@@ -35,7 +35,7 @@ private:
     
     std::pair<std::vector<transport_catalogue::detail::StopCommand>, std::vector<transport_catalogue::detail::BusCommand>> base_requests;
     std::vector<transport_catalogue::request_handler::detail::Request> requests;
-    std::vector<std::variant<std::nullptr_t, transport_catalogue::request_handler::detail::StopResponse, transport_catalogue::request_handler::detail::BusResponse, transport_catalogue::request_handler::detail::ErrorResponse>> response;
+    std::vector<transport_catalogue::request_handler::Response> response;
     transport_catalogue::map_renderer::detail::MapSettings map_settings;
 };
 

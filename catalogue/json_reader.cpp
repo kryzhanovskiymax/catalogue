@@ -73,7 +73,7 @@ void JsonReader::SetMapSettings(map_renderer::MapRenderer& map) {
     map.SetMapSettings(map_settings);
 }
 
-void JsonReader::WriteResponse(std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> answer) {
+void JsonReader::WriteResponse(std::vector<Response> answer) {
     response = answer;
 }
 

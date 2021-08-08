@@ -6,6 +6,7 @@
 #include <variant>
 #include <string>
 #include <memory>
+#include <sstream>
 
 namespace transport_catalogue {
 
@@ -47,18 +48,19 @@ struct Request {
 
 }
 
+using Response = std::variant<std::nullptr_t, detail::BusResponse, detail::StopResponse, detail::ErrorResponse>;
 
 
 class RequestHandler {
 public:
     void InitializeRequestHandler(const std::vector<detail::Request>& requests_);
     void HandleRequests(const transport_catalogue::TransportCatalogue& transport_catalogue_);
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> GetResponses();
+    std::vector<Response> GetResponses();
     void InitializeMapHandler(std::unique_ptr<transport_catalogue::map_renderer::MapRenderer>&& map_);
 
 private:
     std::vector<detail::Request> requests;
-    std::vector<std::variant<std::nullptr_t, detail::StopResponse, detail::BusResponse, detail::ErrorResponse>> responses;
+    std::vector<Response> responses;
     std::unique_ptr<transport_catalogue::map_renderer::MapRenderer> map_render;
 };
 

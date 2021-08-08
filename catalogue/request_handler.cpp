@@ -17,7 +17,7 @@ void RequestHandler::InitializeMapHandler(std::unique_ptr<transport_catalogue::m
 void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogue &transport_catalogue_) {
     
     for(const auto& request : requests) {
-        std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse> response_;
+        Response response_;
         if(request.type == QueryType::BusQuery) {
             BusInfo bus = transport_catalogue_.GetBus(request.name);
             if(!bus.exists) {
@@ -45,6 +45,9 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
         } else {
             svg::Document map;
             map_render->DrawMap(map);
+            std::stringstream map_str;
+            map.Render(map_str);
+            
             
         }
         
@@ -53,7 +56,7 @@ void RequestHandler::HandleRequests(const transport_catalogue::TransportCatalogu
     
 }
 
-std::vector<std::variant<std::nullptr_t, StopResponse, BusResponse, ErrorResponse>> RequestHandler::GetResponses() {
+std::vector<Response> RequestHandler::GetResponses() {
     return responses;
 }
 
